@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APM.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [ApiVersion("0.1")]
+    [Route("api/v{api-version:apiVersion}/[controller]")]
     public class ValuesController : Controller
     {
         // GET api/values

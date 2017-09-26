@@ -14,9 +14,9 @@ namespace APM.Domain
 
         public string Password { get; set; }
 
-        public DateTime ValidFrom { get; set; }
+        public DateTime? ValidFrom { get; set; }
 
-        public DateTime ValidUntil { get; set; }
+        public DateTime? ValidUntil { get; set; }
 
         public string Owner { get; set; }
     }
