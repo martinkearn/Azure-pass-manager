@@ -15,6 +15,8 @@ using System.Reflection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 using APM.Api.Models;
+using APM.Api.Interfaces;
+using APM.Api.Repositories;
 
 namespace APM.Api
 {
@@ -41,6 +43,9 @@ namespace APM.Api
             // Add app secret settings
             services.AddOptions();
             services.Configure<AppSecretSettings>(Configuration);
+
+            // Add repositories
+            services.AddSingleton<IStoreRepository, StoreRepository>();
 
             #region Swagger
 
