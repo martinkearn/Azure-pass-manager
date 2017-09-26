@@ -19,5 +19,7 @@ namespace APM.Domain
         public DateTime? ValidUntil { get; set; }
 
         public string Owner { get; set; }
+
+        public int TimeZoneOffsetFromUTC { get; set; }
     }
 }
