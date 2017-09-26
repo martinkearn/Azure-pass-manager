@@ -38,6 +38,10 @@ namespace APM.Api
             var appSettings = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettings);
 
+            // Add app secret settings
+            services.AddOptions();
+            services.Configure<AppSecretSettings>(Configuration);
+
             #region Swagger
 
             services.AddSwaggerGen(

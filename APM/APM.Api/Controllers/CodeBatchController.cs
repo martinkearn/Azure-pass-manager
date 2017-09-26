@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace APM.Api.Controllers
 {
@@ -12,6 +13,13 @@ namespace APM.Api.Controllers
     [Route("api/v{api-version:apiVersion}/[controller]")]
     public class CodeBatchController : Controller
     {
+        public IConfiguration _configuration { get; set; }
+
+        public CodeBatchController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // POST: api/CodeBatch
         [HttpPost]
         public void Post([FromBody]string value)

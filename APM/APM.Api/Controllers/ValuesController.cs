@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using APM.Api.Models;
+using Microsoft.Extensions.Options;
 
 namespace APM.Api.Controllers
 {
@@ -11,11 +14,25 @@ namespace APM.Api.Controllers
     [Route("api/v{api-version:apiVersion}/[controller]")]
     public class ValuesController : Controller
     {
+        //public IConfiguration _configuration { get; set; }
+        private readonly AppSettings _appSettings;
+
+        private readonly AppSecretSettings _appSecretSettings;
+        
+        public ValuesController(IOptions<AppSettings> appSettings, IOptions<AppSecretSettings> appSecretSettings)
+        {
+            _appSettings = appSettings.Value;
+            _appSecretSettings = appSecretSettings.Value;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var container = _appSettings.TableStorageContainerName;
+            var key = _appSettings.TableStoragePartitionKey;
+            var cs = _appSecretSettings.TableStorageConnectionString;
+            return new string[] { container, key, cs };
         }
 
         // GET api/values/5
