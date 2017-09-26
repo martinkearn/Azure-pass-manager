@@ -14,6 +14,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using System.Reflection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
+using APM.Api.Models;
 
 namespace APM.Api
 {
@@ -32,6 +33,10 @@ namespace APM.Api
             // format the version as "'v'major[.minor][-status]"
             services.AddMvcCore().AddVersionedApiExplorer(options => options.GroupNameFormat = "'v'VVV");
             services.AddMvc();
+
+            // Add app settings
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
 
             #region Swagger
 
