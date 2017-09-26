@@ -19,5 +19,6 @@ namespace APM.Domain
         public string Owner { get; set; }
 
         public byte[] File { get; set; }
+        public int TimeZoneOffsetFromUTC { get; set; }
     }
 }

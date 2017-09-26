@@ -63,7 +63,8 @@ namespace APM.Api.Controllers
                             Owner = codeBatch.Owner ?? string.Empty,
                             Password = codeBatch.Password ?? string.Empty,
                             ValidFrom = codeBatch.ValidFrom,
-                            ValidUntil = codeBatch.ValidUntil
+                            ValidUntil = codeBatch.ValidUntil,
+                            TimeZoneOffsetFromUTC = codeBatch.TimeZoneOffsetFromUTC
                         };
 
                         codesList.Add(code);
