@@ -4,16 +4,16 @@ using System.Text;
 
 namespace APM.Domain
 {
-    public class CodeBatch
+    public class Event
     {
-        public DateTime Expiry { get; set; }
-
         public string EventName { get; set; }
-
-        public string Password { get; set; }
 
         public string Owner { get; set; }
 
-        public byte[] File { get; set; }
+        public DateTime Expiry { get; set; }
+
+        public string Url { get; set; }
+
+        public List<Code> Codes { get; set; }
     }
 }

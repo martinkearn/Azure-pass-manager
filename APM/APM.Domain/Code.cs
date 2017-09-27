@@ -12,14 +12,6 @@ namespace APM.Domain
 
         public string EventName { get; set; }
 
-        public string Password { get; set; }
-
-        public DateTime? ValidFrom { get; set; }
-
-        public DateTime? ValidUntil { get; set; }
-
         public string Owner { get; set; }
-
-        public int TimeZoneOffsetFromUTC { get; set; }
     }
 }

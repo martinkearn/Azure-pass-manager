@@ -13,16 +13,16 @@ namespace APM.Api.Controllers
     [Produces("application/json")]
     [ApiVersion("0.1")]
     [Route("api/v{api-version:apiVersion}/[controller]")]
-    public class CodeBatchController : Controller
+    public class CodesController : Controller
     {
         private readonly IStoreRepository _storeRepository;
 
-        public CodeBatchController(IStoreRepository storeRepository)
+        public CodesController(IStoreRepository storeRepository)
         {
             _storeRepository = storeRepository;
         }
 
-        // POST: api/CodeBatch
+        // POST: api/Codes
         /// <summary>
         /// Loads the contents of a CSV file to storage as Codes
         /// </summary>
@@ -56,15 +56,11 @@ namespace APM.Api.Controllers
                     {
                         var code = new Code()
                         {
-                            PromoCode = promoCode ?? "No Code",
+                            PromoCode = promoCode ?? string.Empty,
                             Claimed = false,
-                            EventName = codeBatch.EventName ?? "No Event Name",
+                            EventName = codeBatch.EventName ?? string.Empty,
                             Expiry = codeBatch.Expiry,
-                            Owner = codeBatch.Owner ?? string.Empty,
-                            Password = codeBatch.Password ?? string.Empty,
-                            ValidFrom = codeBatch.ValidFrom,
-                            ValidUntil = codeBatch.ValidUntil,
-                            TimeZoneOffsetFromUTC = codeBatch.TimeZoneOffsetFromUTC
+                            Owner = codeBatch.Owner ?? string.Empty
                         };
 
                         codesList.Add(code);
@@ -79,6 +75,20 @@ namespace APM.Api.Controllers
             }
 
             return Ok(codesList);
+        }
+
+        // DELETE: api/Codes
+        [HttpDelete]
+        public async Task<IActionResult> Delete(List<string> codes)
+        {
+            //there will be a more efficient way to do this as a batch.
+            foreach (var code in codes)
+            {
+                await _storeRepository.DeleteCode(code);
+            }
+
+            //return 202 (resource marked for deletion)
+            return StatusCode(202);
         }
     }
 }
