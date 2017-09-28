@@ -35,7 +35,7 @@ namespace APM.Api.Controllers
             //all of this assumes all codes in the same EventName have common values
             var owner = codesInEvent.FirstOrDefault().Owner;
             var expiry = codesInEvent.FirstOrDefault().Expiry;
-            var url = Request.PathBase + "/" + eventName.Remove(' ');
+            var url = $"/{CastEventNameToEventUrl(eventName)}";
             var codes = codesInEvent;
 
             //create Event object
@@ -49,6 +49,16 @@ namespace APM.Api.Controllers
             };
 
             return Ok(evnt);
+        }
+
+        private string CastEventNameToEventUrl(string eventName)
+        {
+            var eventUrl = eventName;
+            eventUrl = eventUrl.ToLower();
+            eventUrl = eventUrl.Replace(" ", "");
+            eventUrl = eventUrl.TrimEnd();
+            eventUrl = eventUrl.TrimStart();
+            return eventUrl;
         }
     }
 }
