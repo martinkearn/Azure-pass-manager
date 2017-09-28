@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using APM.Web.Data;
-using APM.Web.Models;
-using APM.Web.Services;
+using System.Globalization;
+using System.Threading;
 
 namespace APM.Web
 {
@@ -26,15 +22,13 @@ namespace APM.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddAzureAd(options => Configuration.Bind("AzureAd", options))
+            .AddCookie();
 
             services.AddMvc();
         }
@@ -46,7 +40,6 @@ namespace APM.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -54,6 +47,7 @@ namespace APM.Web
             }
 
             app.UseStaticFiles();
+
 
             app.UseAuthentication();
 
