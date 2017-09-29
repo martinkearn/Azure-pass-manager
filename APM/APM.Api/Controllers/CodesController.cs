@@ -31,7 +31,7 @@ namespace APM.Api.Controllers
         /// <param name="EventName">String representing the name of the event</param>
         /// <param name="Owner">String representing the alias of the user who owns the code</param>
         /// <body>A file (CSV) containg comma seperated list of codes</body>
-        /// <returns>Array of Codes</returns>
+        /// <returns>200 containing an array of Codes</returns>
         [HttpPost]
         public async Task<IActionResult> Post(CodeBatch codeBatch)
         {
@@ -78,6 +78,11 @@ namespace APM.Api.Controllers
         }
 
         // DELETE: api/Codes
+        /// <summary>
+        /// Deletes an array of codes
+        /// </summary>
+        /// <param name="codes">An array of strings representing a codes to be deleted</param>
+        /// <returns>202 if successful</returns>
         [HttpDelete]
         public async Task<IActionResult> Delete(List<string> codes)
         {

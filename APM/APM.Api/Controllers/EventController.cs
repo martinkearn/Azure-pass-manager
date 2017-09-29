@@ -21,6 +21,11 @@ namespace APM.Api.Controllers
             _storeRepository = storeRepository;
         }
 
+        /// <summary>
+        /// Returns a single event (with codes)
+        /// </summary>
+        /// <param name="eventName">The name of the event to return</param>
+        /// <returns>200 containing an Event</returns>
         [HttpGet("{eventName}")]
         public async Task<IActionResult> Get(string eventName)
         {

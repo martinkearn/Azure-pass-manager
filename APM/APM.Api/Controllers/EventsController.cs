@@ -21,6 +21,11 @@ namespace APM.Api.Controllers
             _storeRepository = storeRepository;
         }
 
+        /// <summary>
+        /// Returns a list of event names for the specified owner
+        /// </summary>
+        /// <param name="owner">The owner to return events for</param>
+        /// <returns>200 containing array of strings of event names</returns>
         [HttpGet("{owner}")]
         public async Task<IActionResult> Get(string owner)
         {
