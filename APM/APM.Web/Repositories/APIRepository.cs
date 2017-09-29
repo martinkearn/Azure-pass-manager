@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace APM.Web.Repositories
 {
-    public class CodesRepository : ICodesRepository
+    public class APIRepository : IAPIRepository
     {
         private readonly AppSettings _appSettings;
 
-        public CodesRepository(IOptions<AppSettings> appSettings)
+        public APIRepository(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
@@ -42,11 +42,27 @@ namespace APM.Web.Repositories
                 { "EventName", codeBatch.EventName },
                 { "Owner", codeBatch.Owner }
             };
-            var codeBatchAPIUrl = $"{_appSettings.APIBaseUrl}/codes";
-            var apiUri = QueryHelpers.AddQueryString(codeBatchAPIUrl, parameters);
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/codes";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
             var responseMessage = await httpClient.PostAsync(apiUri, content);
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByOwner(string owner)
+        {
+            //setup HttpClient with content
+            var httpClient = new HttpClient();
+            var apiUrlBase = _appSettings.APIBaseUrl;
+            httpClient.BaseAddress = new Uri(apiUrlBase);
+
+            //construct full API endpoint uri
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/events/{owner}";
+
+            //make request
+            var responseMessage = await httpClient.GetAsync(apiBaseUrl);
+
+            return null;
         }
     }
 }

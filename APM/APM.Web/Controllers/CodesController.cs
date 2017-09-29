@@ -12,9 +12,9 @@ namespace APM.Web.Controllers
 {
     public class CodesController : Controller
     {
-        private readonly ICodesRepository _codesRepository;
+        private readonly IAPIRepository _codesRepository;
 
-        public CodesController(ICodesRepository codesRepository)
+        public CodesController(IAPIRepository codesRepository)
         {
             _codesRepository = codesRepository;
         }

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace APM.Web.Interfaces
 {
-    public interface ICodesRepository
+    public interface IAPIRepository
     {
         Task StoreCodeBatch(CodeBatch codeBatch);
+
+        Task<IEnumerable<Event>> GetEventsByOwner(string owner); 
     }
 }

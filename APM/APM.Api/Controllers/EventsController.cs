@@ -31,11 +31,37 @@ namespace APM.Api.Controllers
         {
             var codes = await _storeRepository.GetCodes();
 
-            var events = codes
+            //get list of unique eventNames for the owner
+            var eventNames = codes
                 .Where(x => x.Owner.ToLower() == owner.ToLower())
                 .Select(x => x.EventName)
                 .Distinct()
                 .ToList();
+
+            //for each unique eventName, create full event object and add to list to be returned
+            var events = new List<Event>();
+            foreach (var eventName in eventNames)
+            {
+                //all of this assumes all codes in the same EventName have common values
+                var codesInEvent = codes
+                    .Where(x => x.Owner.ToLower() == owner.ToLower())
+                    .Where(x => x.EventName.ToLower() == eventName.ToLower())
+                    .ToList();
+                var expiry = codesInEvent.FirstOrDefault().Expiry;
+                var url = Helpers.Helpers.EventNameToEventUrl(eventName);
+
+                //create Event object
+                var evnt = new Event()
+                {
+                    Codes = codesInEvent,
+                    EventName = eventName,
+                    Expiry = expiry,
+                    Owner = owner,
+                    Url = url
+                };
+
+                events.Add(evnt);
+            }
 
             return Ok(events);
         }
