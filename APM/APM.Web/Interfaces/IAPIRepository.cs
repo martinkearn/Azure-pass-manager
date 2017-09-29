@@ -10,6 +10,8 @@ namespace APM.Web.Interfaces
     {
         Task StoreCodeBatch(CodeBatch codeBatch);
 
-        Task<IEnumerable<Event>> GetEventsByOwner(string owner); 
+        Task<IEnumerable<Event>> GetEventsByOwner(string owner);
+
+        Task<Event> GetEventByEventName(string eventName);
     }
 }

@@ -25,57 +25,13 @@ namespace APM.Web.Controllers
             return View(eventsForOwner);
         }
 
-        // GET: Events/Details/5
-        public ActionResult Details(int id)
+        // GET: Events/Details/Hackference2017
+        public async Task<ActionResult> Details(string eventName)
         {
-            return View();
+            var evnt = await _apiRepository.GetEventByEventName(eventName);
+            return View(evnt);
         }
 
-        // GET: Events/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Events/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Events/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Events/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: Events/Delete/5
         public ActionResult Delete(int id)
@@ -98,6 +54,13 @@ namespace APM.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public FileContentResult Download(string contents, string fileName)
+        {
+            //string csv = "Charlie, Chaplin, Chuckles";
+            contents = contents.TrimEnd(',');
+            return File(new System.Text.UTF8Encoding().GetBytes(contents), "text/csv", $"{fileName}.csv");
         }
     }
 }

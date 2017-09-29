@@ -28,9 +28,7 @@ namespace APM.Web.Repositories
         public async Task StoreCodeBatch(CodeBatch codeBatch)
         {
             //setup HttpClient with content
-            var httpClient = new HttpClient();
-            var apiUrlBase = _appSettings.APIBaseUrl;
-            httpClient.BaseAddress = new Uri(apiUrlBase);
+            var httpClient = GetHttpClient();
 
             //setup body
             var content = new StreamContent(new MemoryStream(codeBatch.File));
@@ -54,9 +52,7 @@ namespace APM.Web.Repositories
         public async Task<IEnumerable<Event>> GetEventsByOwner(string owner)
         {
             //setup HttpClient with content
-            var httpClient = new HttpClient();
-            var apiUrlBase = _appSettings.APIBaseUrl;
-            httpClient.BaseAddress = new Uri(apiUrlBase);
+            var httpClient = GetHttpClient();
 
             //construct full API endpoint uri
             var apiBaseUrl = $"{_appSettings.APIBaseUrl}/events/{owner}";
@@ -75,6 +71,32 @@ namespace APM.Web.Repositories
             }
 
             return items;
+        }
+
+        public async Task<Event> GetEventByEventName(string eventName)
+        {
+            //setup HttpClient with content
+            var httpClient = GetHttpClient();
+
+            //construct full API endpoint uri
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event/{eventName}";
+
+            //make request
+            var responseMessage = await httpClient.GetAsync(apiBaseUrl);
+
+            //cast to item
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var evnt = JsonConvert.DeserializeObject<Event>(responseString.ToString());
+
+            return evnt;
+        }
+
+        private HttpClient GetHttpClient()
+        {
+            var httpClient = new HttpClient();
+            var apiUrlBase = _appSettings.APIBaseUrl;
+            httpClient.BaseAddress = new Uri(apiUrlBase);
+            return httpClient;
         }
     }
 }

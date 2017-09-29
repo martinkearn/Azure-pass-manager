@@ -1,51 +1,42 @@
 ﻿@model IEnumerable<APM.Domain.Event>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Your Events";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.EventName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Owner)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Expiry)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Url)
-                </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Expiry)
+            </th>
+            <th>
+                Codes
+            </th>
+            <th>
+                Claim Url
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.EventName)
+                @Html.ActionLink(item.EventName, "Details", new { eventName = item.EventName })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Owner)
+                @item.Expiry.ToLongDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Expiry)
+                <span>@item.Codes.Where(c => c.Claimed).Count() used, @item.Codes.Where(c => !c.Claimed).Count() avaliable</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a href="@item.Url">@item.Url</a>
             </td>
         </tr>
 }
