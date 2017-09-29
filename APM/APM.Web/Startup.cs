@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using APM.Web.Interfaces;
+using APM.Web.Models;
+using APM.Web.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +34,13 @@ namespace APM.Web
             .AddCookie();
 
             services.AddMvc();
+
+            // Add app settings
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
+
+            // Add repositories
+            services.AddSingleton<ICodesRepository, CodesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

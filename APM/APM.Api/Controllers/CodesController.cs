@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using APM.Api.Interfaces;
 using APM.Domain;
+using System.Globalization;
 
 namespace APM.Api.Controllers
 {
@@ -27,10 +28,7 @@ namespace APM.Api.Controllers
         /// Loads the contents of a CSV file to storage as Codes
         /// </summary>
         /// <param name="Expiry">DateTime representing the expiration of the codes in the batch. Format YYYY-MM-DDTHH:MM:SS i.e. 2017-09-25T00:00:00</param>
-        /// <param name="EventName">String representing teh name of the event</param>
-        /// <param name="Password">Password required to claim a code</param>
-        /// <param name="ValidFrom">DateTime representing the date/time when code can be claim from. Format YYYY-MM-DDTHH:MM:SS i.e. 2017-09-25T00:00:00</param>
-        /// <param name="ValidUntil">DateTime representing the date/time when code can be claim until. Format YYYY-MM-DDTHH:MM:SS i.e. 2017-09-25T00:00:00</param>
+        /// <param name="EventName">String representing the name of the event</param>
         /// <param name="Owner">String representing the alias of the user who owns the code</param>
         /// <body>A file (CSV) containg comma seperated list of codes</body>
         /// <returns>Array of Codes</returns>
@@ -54,12 +52,14 @@ namespace APM.Api.Controllers
                 {
                     if (!string.IsNullOrEmpty(promoCode))
                     {
+
+                        DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-US").DateTimeFormat;
                         var code = new Code()
                         {
                             PromoCode = promoCode ?? string.Empty,
                             Claimed = false,
                             EventName = codeBatch.EventName ?? string.Empty,
-                            Expiry = codeBatch.Expiry,
+                            Expiry = Convert.ToDateTime(codeBatch.Expiry, dtfi),
                             Owner = codeBatch.Owner ?? string.Empty
                         };
 

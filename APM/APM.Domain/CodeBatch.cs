@@ -10,8 +10,6 @@ namespace APM.Domain
 
         public string EventName { get; set; }
 
-        public string Password { get; set; }
-
         public string Owner { get; set; }
 
         public byte[] File { get; set; }
