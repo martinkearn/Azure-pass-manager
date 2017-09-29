@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APM.Web.Interfaces
 {
-    public interface IAPIRepository
+    public interface IApiRepository
     {
         Task StoreCodeBatch(CodeBatch codeBatch);
 

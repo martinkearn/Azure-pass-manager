@@ -4,15 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using APM.Web.Interfaces;
 
 namespace APM.Web.Controllers
 {
     public class EventsController : Controller
     {
-        // GET: Events
-        public ActionResult Index()
+        private readonly IApiRepository _apiRepository;
+
+        public EventsController(IApiRepository apiRepository)
         {
-            return View();
+            _apiRepository = apiRepository;
+        }
+
+        // GET: Events
+        public async Task<ActionResult> Index()
+        {
+            var owner = User.Identity.Name ?? "Anonymous";
+            var eventsForOwner = await _apiRepository.GetEventsByOwner(owner);
+            return View(eventsForOwner);
         }
 
         // GET: Events/Details/5

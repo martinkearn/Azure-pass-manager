@@ -40,7 +40,7 @@ namespace APM.Web
             services.Configure<AppSettings>(appSettings);
 
             // Add repositories
-            services.AddSingleton<IAPIRepository, APIRepository>();
+            services.AddSingleton<IApiRepository, ApiRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

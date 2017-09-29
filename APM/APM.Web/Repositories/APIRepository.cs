@@ -3,6 +3,8 @@ using APM.Web.Interfaces;
 using APM.Web.Models;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,11 +16,11 @@ using System.Threading.Tasks;
 
 namespace APM.Web.Repositories
 {
-    public class APIRepository : IAPIRepository
+    public class ApiRepository : IApiRepository
     {
         private readonly AppSettings _appSettings;
 
-        public APIRepository(IOptions<AppSettings> appSettings)
+        public ApiRepository(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
         }
@@ -62,7 +64,17 @@ namespace APM.Web.Repositories
             //make request
             var responseMessage = await httpClient.GetAsync(apiBaseUrl);
 
-            return null;
+            //cast to array of items
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var responseArray = JArray.Parse(responseString);
+            var items = new List<Event>();
+            foreach (var response in responseArray)
+            {
+                var item = JsonConvert.DeserializeObject<Event>(response.ToString());
+                items.Add(item);
+            }
+
+            return items;
         }
     }
 }

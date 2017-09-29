@@ -12,11 +12,11 @@ namespace APM.Web.Controllers
 {
     public class CodesController : Controller
     {
-        private readonly IAPIRepository _codesRepository;
+        private readonly IApiRepository _apiRepository;
 
-        public CodesController(IAPIRepository codesRepository)
+        public CodesController(IApiRepository apiRepository)
         {
-            _codesRepository = codesRepository;
+            _apiRepository = apiRepository;
         }
 
         // GET: Codes
@@ -36,7 +36,7 @@ namespace APM.Web.Controllers
                 var codeBatch = CastFormCollectionToCodeBatch(collection, Request.Form.Files.FirstOrDefault());
 
                 //post
-                _codesRepository.StoreCodeBatch(codeBatch);
+                _apiRepository.StoreCodeBatch(codeBatch);
 
                 return RedirectToAction("Index", "Home");
             }
