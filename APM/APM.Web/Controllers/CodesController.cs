@@ -38,7 +38,7 @@ namespace APM.Web.Controllers
                 //post
                 _apiRepository.StoreCodeBatch(codeBatch);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Events");
             }
             catch
             {
