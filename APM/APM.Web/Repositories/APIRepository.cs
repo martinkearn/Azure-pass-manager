@@ -91,6 +91,23 @@ namespace APM.Web.Repositories
             return evnt;
         }
 
+        public async Task DeleteEventCodes(List<string> codes)
+        {
+            //setup HttpClient with content
+            var httpClient = GetHttpClient();
+
+            //construct full API endpoint uri
+            var parameters = new Dictionary<string, string>
+            {
+                { "Codes", string.Join(",", codes) }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/codes";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
+
+            //make request
+            var responseMessage = await httpClient.DeleteAsync(apiUri);
+        }
+
         private HttpClient GetHttpClient()
         {
             var httpClient = new HttpClient();

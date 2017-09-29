@@ -33,20 +33,24 @@ namespace APM.Web.Controllers
         }
 
 
-        // GET: Events/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Events/Delete/Hackference2017
+        public async Task<ActionResult> Delete(string eventName)
         {
-            return View();
+            var evnt = await _apiRepository.GetEventByEventName(eventName);
+            return View(evnt);
         }
 
-        // POST: Events/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        // GET: Events/DeletePost/Hackference2017
+        public async Task<ActionResult> DeletePost(string eventName)
         {
             try
             {
-                // TODO: Add delete logic here
+                //get event
+                var evnt = await _apiRepository.GetEventByEventName(eventName);
+
+                //pass event codes to be deleted
+                var eventCodes = evnt.Codes.Select(c => c.PromoCode).ToList();
+                await _apiRepository.DeleteEventCodes(eventCodes);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -58,7 +62,6 @@ namespace APM.Web.Controllers
 
         public FileContentResult Download(string contents, string fileName)
         {
-            //string csv = "Charlie, Chaplin, Chuckles";
             contents = contents.TrimEnd(',');
             return File(new System.Text.UTF8Encoding().GetBytes(contents), "text/csv", $"{fileName}.csv");
         }

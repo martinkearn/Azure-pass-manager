@@ -81,13 +81,15 @@ namespace APM.Api.Controllers
         /// <summary>
         /// Deletes an array of codes
         /// </summary>
-        /// <param name="codes">An array of strings representing a codes to be deleted</param>
+        /// <param name="codes">An comma seperated string of strings representing a codes to be deleted</param>
         /// <returns>202 if successful</returns>
         [HttpDelete]
-        public async Task<IActionResult> Delete(List<string> codes)
+        public async Task<IActionResult> Delete(string codes)
         {
+            var codesList = codes.Split(',');
+
             //there will be a more efficient way to do this as a batch.
-            foreach (var code in codes)
+            foreach (var code in codesList)
             {
                 await _storeRepository.DeleteCode(code);
             }

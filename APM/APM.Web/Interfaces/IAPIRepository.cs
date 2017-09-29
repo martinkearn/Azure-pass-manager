@@ -13,5 +13,7 @@ namespace APM.Web.Interfaces
         Task<IEnumerable<Event>> GetEventsByOwner(string owner);
 
         Task<Event> GetEventByEventName(string eventName);
+
+        Task DeleteEventCodes(List<string> codes);
     }
 }
