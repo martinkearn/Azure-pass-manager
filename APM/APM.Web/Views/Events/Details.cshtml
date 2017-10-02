@@ -39,19 +39,19 @@
         </dt>
         <dd>
             @Model.Codes.Where(o=>o.Claimed).Count() claimed codes:
-            <br />
-            @string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
-            <br />
-            @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
-        </dd>
+            <p>
+                @string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
+                </p>
+                @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
+</dd>
         <dt>
             Un-Claimed Codes
         </dt>
         <dd>
             @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
-            <br />
+            <p>
             @string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
-            <br />
+            </p>
             @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" })
         </dd>
     </dl>

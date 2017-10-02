@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using APM.Domain;
 using System.IO;
 using APM.Web.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APM.Web.Controllers
 {
+#if (!DEBUG)
+    [Authorize]
+#endif
     public class CodesController : Controller
     {
         private readonly IApiRepository _apiRepository;

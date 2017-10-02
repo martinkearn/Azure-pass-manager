@@ -38,6 +38,7 @@
     </dl>
     
     <form asp-action="Delete">
+        <input asp-for="EventName" value="@Model.EventName" hidden />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

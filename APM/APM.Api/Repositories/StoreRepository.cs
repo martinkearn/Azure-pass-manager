@@ -1,4 +1,5 @@
-﻿using APM.Api.Interfaces;
+﻿using APM.Api.Extensions;
+using APM.Api.Interfaces;
 using APM.Api.Models;
 using APM.Domain;
 using Microsoft.Extensions.Options;
@@ -35,6 +36,32 @@ namespace APM.Api.Repositories
             await table.ExecuteAsync(insertOperation);
         }
 
+        public async Task StoreCodes(List<Code> items)
+        {
+            var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
+
+            // Need to split list into block of 100 as 100 is the maximum amount of item permitted in a batch operation https://docs.microsoft.com/en-us/azure/cosmos-db/table-storage-how-to-use-dotnet#insert-a-batch-of-entities
+            var listOfListOfItems = items.ChunkBy(100);
+
+            foreach (var listOfItems in listOfListOfItems)
+            {
+                // Create the batch operation.
+                TableBatchOperation batchOperation = new TableBatchOperation();
+
+                // Add each item to the batch
+                foreach (var item in listOfItems)
+                {
+                    var rowKey = item.PromoCode;
+                    TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, _appSettings.TableStoragePartitionKey, rowKey.ToString());
+                    batchOperation.InsertOrReplace(entity);
+                }
+
+                // Execute the batch operation.
+                await table.ExecuteBatchAsync(batchOperation);
+            }
+
+        }
+
         public async Task DeleteCode(string id)
         {
             //get cloudtable
@@ -58,6 +85,45 @@ namespace APM.Api.Repositories
                 // Execute the operation.
                 await table.ExecuteAsync(deleteOperation);
             }
+        }
+
+        public async Task DeleteCodes(string codeIds)
+        {
+            //get cloudtable
+            var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
+
+            // Cast to list
+            var items = codeIds.Split(',').ToList();
+
+            // Need to split list into block of 100 as 100 is the maximum amount of item permitted in a batch operation https://docs.microsoft.com/en-us/azure/cosmos-db/table-storage-how-to-use-dotnet#insert-a-batch-of-entities
+            var listOfListOfItems = items.ChunkBy(100);
+
+            foreach (var listOfItems in listOfListOfItems)
+            {
+                // Create the batch operation.
+                TableBatchOperation batchOperation = new TableBatchOperation();
+
+                // add codes to the batch operation
+                foreach (var item in listOfItems)
+                {
+                    // Create a retrieve operation that takes an entity.
+                    TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(_appSettings.TableStoragePartitionKey, item);
+
+                    // Execute the retrieve operation.
+                    TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
+
+                    // get the result and create a new object from the data
+                    var result = (TableEntityAdapter<Code>)retrievedResult.Result;
+
+                    // Add to delete operation
+                    batchOperation.Delete(result);
+                }
+
+                // Execute the batch operation.
+                await table.ExecuteBatchAsync(batchOperation);
+            }
+
+
         }
 
         public async Task<Code> GetCode(string id)

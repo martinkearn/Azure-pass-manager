@@ -5,9 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using APM.Web.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APM.Web.Controllers
 {
+#if (!DEBUG)
+    [Authorize]
+#endif
+
     public class EventsController : Controller
     {
         private readonly IApiRepository _apiRepository;
@@ -40,8 +45,9 @@ namespace APM.Web.Controllers
             return View(evnt);
         }
 
-        // GET: Events/DeletePost/Hackference2017
-        public async Task<ActionResult> DeletePost(string eventName)
+        [HttpPost]
+        // GET: Events/Delete/Hackference2017
+        public async Task<ActionResult> Delete(string eventName, IFormCollection collection)
         {
             try
             {

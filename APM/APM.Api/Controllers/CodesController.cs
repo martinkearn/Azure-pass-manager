@@ -69,10 +69,7 @@ namespace APM.Api.Controllers
             }
 
             // Store codes
-            foreach (var code in codesList)
-            {
-                await _storeRepository.StoreCode(code);
-            }
+            await _storeRepository.StoreCodes(codesList);
 
             return Ok(codesList);
         }
@@ -86,13 +83,7 @@ namespace APM.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(string codes)
         {
-            var codesList = codes.Split(',');
-
-            //there will be a more efficient way to do this as a batch.
-            foreach (var code in codesList)
-            {
-                await _storeRepository.DeleteCode(code);
-            }
+            await _storeRepository.DeleteCodes(codes);
 
             //return 202 (resource marked for deletion)
             return StatusCode(202);
