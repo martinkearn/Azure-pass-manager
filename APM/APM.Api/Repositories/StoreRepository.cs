@@ -122,8 +122,6 @@ namespace APM.Api.Repositories
                 // Execute the batch operation.
                 await table.ExecuteBatchAsync(batchOperation);
             }
-
-
         }
 
         public async Task<Code> GetCode(string id)

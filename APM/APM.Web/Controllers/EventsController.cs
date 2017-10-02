@@ -51,12 +51,7 @@ namespace APM.Web.Controllers
         {
             try
             {
-                //get event
-                var evnt = await _apiRepository.GetEventByEventName(eventName);
-
-                //pass event codes to be deleted
-                var eventCodes = evnt.Codes.Select(c => c.PromoCode).ToList();
-                await _apiRepository.DeleteEventCodes(eventCodes);
+                await _apiRepository.DeleteEventByEventName(eventName);
 
                 return RedirectToAction(nameof(Index));
             }

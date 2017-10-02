@@ -14,6 +14,6 @@ namespace APM.Web.Interfaces
 
         Task<Event> GetEventByEventName(string eventName);
 
-        Task DeleteEventCodes(List<string> codes);
+        Task DeleteEventByEventName(string eventName);
     }
 }

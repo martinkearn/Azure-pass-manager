@@ -91,22 +91,16 @@ namespace APM.Web.Repositories
             return evnt;
         }
 
-        public async Task DeleteEventCodes(List<string> codes)
+        public async Task DeleteEventByEventName(string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
 
             //construct full API endpoint uri
-            var parameters = new Dictionary<string, string>
-            {
-                { "Codes", string.Join(",", codes) }
-            };
-            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/codes";
-            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event/{eventName}";
 
             //make request
-            // TO DO: adapt this to pass a JSON doc rather than query string - too much data for query string or add a delete by eventName operation to API?
-            var responseMessage = await httpClient.DeleteAsync(apiUri);
+            var responseMessage = await httpClient.DeleteAsync(apiBaseUrl);
         }
 
         private HttpClient GetHttpClient()

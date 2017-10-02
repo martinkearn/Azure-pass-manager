@@ -74,19 +74,6 @@ namespace APM.Api.Controllers
             return Ok(codesList);
         }
 
-        // DELETE: api/Codes
-        /// <summary>
-        /// Deletes an array of codes
-        /// </summary>
-        /// <param name="codes">An comma seperated string of strings representing a codes to be deleted</param>
-        /// <returns>202 if successful</returns>
-        [HttpDelete]
-        public async Task<IActionResult> Delete(string codes)
-        {
-            await _storeRepository.DeleteCodes(codes);
 
-            //return 202 (resource marked for deletion)
-            return StatusCode(202);
-        }
     }
 }

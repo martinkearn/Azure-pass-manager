@@ -55,5 +55,32 @@ namespace APM.Api.Controllers
 
             return Ok(evnt);
         }
+
+        /// <summary>
+        /// Deletes an event and its codes
+        /// </summary>
+        /// <param name="eventName">The name of the event to delete</param>
+        /// <returns>202 if successful</returns>
+        [HttpDelete("{eventName}")]
+        public async Task<IActionResult> Delete(string eventName)
+        {
+            //get all codes
+            var allCodes = await _storeRepository.GetCodes();
+
+            //filter codes on EventName
+            var codesInEvent = allCodes
+                .Where(x => x.EventName.ToLower() == eventName.ToLower())
+                .Select(x => x.PromoCode)
+                .ToList();
+
+            //cast to list of code ids
+            var codeIdsInEvent = string.Join(",", codesInEvent);
+
+            //delete
+            await _storeRepository.DeleteCodes(codeIdsInEvent);
+
+            //return 202 (resource marked for deletion)
+            return StatusCode(202);
+        }
     }
 }
