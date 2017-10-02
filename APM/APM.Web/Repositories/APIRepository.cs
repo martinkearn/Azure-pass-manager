@@ -105,7 +105,7 @@ namespace APM.Web.Repositories
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
-            // TO DO: adapt this to pass a JSON doc rather than query string - too much data for query string
+            // TO DO: adapt this to pass a JSON doc rather than query string - too much data for query string or add a delete by eventName operation to API?
             var responseMessage = await httpClient.DeleteAsync(apiUri);
         }
 
