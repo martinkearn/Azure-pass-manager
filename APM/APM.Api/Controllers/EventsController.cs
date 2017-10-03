@@ -26,10 +26,10 @@ namespace APM.Api.Controllers
         /// </summary>
         /// <param name="owner">The owner to return events for</param>
         /// <returns>200 containing array of strings of event names</returns>
-        [HttpGet("{owner}")]
+        [HttpGet]
         public async Task<IActionResult> Get(string owner)
         {
-            var codes = await _storeRepository.GetCodes();
+            var codes = await _storeRepository.GetCodes(owner);
 
             //get list of unique eventNames for the owner
             var eventNames = codes

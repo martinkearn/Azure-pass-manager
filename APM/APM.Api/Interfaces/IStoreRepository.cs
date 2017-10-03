@@ -12,12 +12,12 @@ namespace APM.Api.Interfaces
 
         Task StoreCodes(List<Code> codes);
 
-        Task DeleteCode(string codeId);
+        Task DeleteCode(string owner, string codeId);
 
-        Task DeleteCodes(string codeIds);
+        Task DeleteCodes(string owner, string codeIds);
 
-        Task<Code> GetCode(string codeId);
+        Task<Code> GetCode(string owner, string codeId);
 
-        Task<List<Code>> GetCodes();
+        Task<List<Code>> GetCodes(string owner);
     }
 }

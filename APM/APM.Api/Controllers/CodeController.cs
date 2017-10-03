@@ -25,15 +25,16 @@ namespace APM.Api.Controllers
         /// Checks request is valid and gets an unused code from storage and marks it as used before returning
         /// </summary>
         /// <param name="eventName">String containing a eventName that the code should belong to</param>
+        /// <param name="owner">String containing the owner that the codes shoudl belong to</param>
         /// <returns>Code</returns>
         [HttpGet]
-        public async Task<IActionResult> Get(string eventName)
+        public async Task<IActionResult> Get(string owner, string eventName)
         {
             //ensure params are not null
             var eventNameNotNull = eventName ?? string.Empty;
 
             //Get first avaliable code which matches all criteria
-            var codes = await _storeRepository.GetCodes();
+            var codes = await _storeRepository.GetCodes(owner);
             var code = codes
                 .Where(c => c.Claimed == false)
                 .Where(c => c.EventName.ToLower() == eventNameNotNull.ToLower())

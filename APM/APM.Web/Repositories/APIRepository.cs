@@ -55,7 +55,12 @@ namespace APM.Web.Repositories
             var httpClient = GetHttpClient();
 
             //construct full API endpoint uri
-            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/events/{owner}";
+            var parameters = new Dictionary<string, string>
+            {
+                { "Owner", owner }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/events";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
             var responseMessage = await httpClient.GetAsync(apiBaseUrl);
@@ -73,16 +78,22 @@ namespace APM.Web.Repositories
             return items;
         }
 
-        public async Task<Event> GetEventByEventName(string eventName)
+        public async Task<Event> GetEventByEventName(string owner, string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
 
             //construct full API endpoint uri
-            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event/{eventName}";
+            var parameters = new Dictionary<string, string>
+            {
+                { "EventName", eventName },
+                { "Owner", owner }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
-            var responseMessage = await httpClient.GetAsync(apiBaseUrl);
+            var responseMessage = await httpClient.GetAsync(apiUri);
 
             //cast to item
             var responseString = await responseMessage.Content.ReadAsStringAsync();
@@ -91,16 +102,22 @@ namespace APM.Web.Repositories
             return evnt;
         }
 
-        public async Task DeleteEventByEventName(string eventName)
+        public async Task DeleteEventByEventName(string owner, string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
 
             //construct full API endpoint uri
-            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event/{eventName}";
+            var parameters = new Dictionary<string, string>
+            {
+                { "EventName", eventName },
+                { "Owner", owner }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
-            var responseMessage = await httpClient.DeleteAsync(apiBaseUrl);
+            var responseMessage = await httpClient.DeleteAsync(apiUri);
         }
 
         private HttpClient GetHttpClient()

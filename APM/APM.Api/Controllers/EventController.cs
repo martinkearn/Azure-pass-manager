@@ -25,12 +25,13 @@ namespace APM.Api.Controllers
         /// Returns a single event (with codes)
         /// </summary>
         /// <param name="eventName">The name of the event to return</param>
+        /// <param name="Owner">String representing the alias of the user who owns the code</param>
         /// <returns>200 containing an Event</returns>
-        [HttpGet("{eventName}")]
-        public async Task<IActionResult> Get(string eventName)
+        [HttpGet]
+        public async Task<IActionResult> Get(string owner, string eventName)
         {
             //get all codes
-            var allCodes = await _storeRepository.GetCodes();
+            var allCodes = await _storeRepository.GetCodes(owner);
 
             //filter codes on EventName
             var codesInEvent = allCodes
@@ -38,7 +39,6 @@ namespace APM.Api.Controllers
                 .ToList();
 
             //all of this assumes all codes in the same EventName have common values
-            var owner = codesInEvent.FirstOrDefault().Owner;
             var expiry = codesInEvent.FirstOrDefault().Expiry;
             var url = Helpers.Helpers.EventNameToEventUrl(eventName);
             var codes = codesInEvent;
@@ -60,12 +60,13 @@ namespace APM.Api.Controllers
         /// Deletes an event and its codes
         /// </summary>
         /// <param name="eventName">The name of the event to delete</param>
+        /// <param name="Owner">String representing the alias of the user who owns the code</param>
         /// <returns>202 if successful</returns>
-        [HttpDelete("{eventName}")]
-        public async Task<IActionResult> Delete(string eventName)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string owner, string eventName)
         {
             //get all codes
-            var allCodes = await _storeRepository.GetCodes();
+            var allCodes = await _storeRepository.GetCodes(owner);
 
             //filter codes on EventName
             var codesInEvent = allCodes
@@ -77,7 +78,7 @@ namespace APM.Api.Controllers
             var codeIdsInEvent = string.Join(",", codesInEvent);
 
             //delete
-            await _storeRepository.DeleteCodes(codeIdsInEvent);
+            await _storeRepository.DeleteCodes(owner, codeIdsInEvent);
 
             //return 202 (resource marked for deletion)
             return StatusCode(202);

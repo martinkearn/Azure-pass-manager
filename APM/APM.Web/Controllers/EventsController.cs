@@ -25,15 +25,14 @@ namespace APM.Web.Controllers
         // GET: Events
         public async Task<ActionResult> Index()
         {
-            var owner = User.Identity.Name ?? "Anonymous";
-            var eventsForOwner = await _apiRepository.GetEventsByOwner(owner);
+            var eventsForOwner = await _apiRepository.GetEventsByOwner(CurrentUser());
             return View(eventsForOwner);
         }
 
         // GET: Events/Details/Hackference2017
         public async Task<ActionResult> Details(string eventName)
         {
-            var evnt = await _apiRepository.GetEventByEventName(eventName);
+            var evnt = await _apiRepository.GetEventByEventName(CurrentUser(), eventName);
             var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
             ViewData["AbsoluteUrl"] = absoluteUrl;
             return View(evnt);
@@ -43,7 +42,7 @@ namespace APM.Web.Controllers
         // GET: Events/Delete/Hackference2017
         public async Task<ActionResult> Delete(string eventName)
         {
-            var evnt = await _apiRepository.GetEventByEventName(eventName);
+            var evnt = await _apiRepository.GetEventByEventName(CurrentUser(), eventName);
             return View(evnt);
         }
 
@@ -53,7 +52,7 @@ namespace APM.Web.Controllers
         {
             try
             {
-                await _apiRepository.DeleteEventByEventName(eventName);
+                await _apiRepository.DeleteEventByEventName(CurrentUser(), eventName);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -67,6 +66,11 @@ namespace APM.Web.Controllers
         {
             contents = contents.TrimEnd(',');
             return File(new System.Text.UTF8Encoding().GetBytes(contents), "text/csv", $"{fileName}.csv");
+        }
+
+        private string CurrentUser()
+        {
+            return User.Identity.Name ?? "Anonymous";
         }
     }
 }
