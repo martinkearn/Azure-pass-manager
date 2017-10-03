@@ -8,6 +8,7 @@ using APM.Domain;
 using System.IO;
 using APM.Web.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading;
 
 namespace APM.Web.Controllers
 {
@@ -42,7 +43,11 @@ namespace APM.Web.Controllers
                 //post
                 _apiRepository.StoreCodeBatch(codeBatch);
 
-                return RedirectToAction("Index", "Events");
+                //sleep the thread before redirecting because it takes a few second for the items to be added to storage.
+                Thread.Sleep(2000);
+
+                // redirect to details page
+                return RedirectToAction("Details", "Events", new { eventName = codeBatch.EventName });
             }
             catch
             {

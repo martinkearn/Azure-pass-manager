@@ -34,6 +34,8 @@ namespace APM.Web.Controllers
         public async Task<ActionResult> Details(string eventName)
         {
             var evnt = await _apiRepository.GetEventByEventName(eventName);
+            var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
+            ViewData["AbsoluteUrl"] = absoluteUrl;
             return View(evnt);
         }
 

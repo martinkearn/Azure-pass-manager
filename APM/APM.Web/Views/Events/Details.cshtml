@@ -7,8 +7,14 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Event</h4>
+    <h4>@Model.EventName</h4>
+    <div class="well">
+        <p class="lead">Instruct delegates to claim codes at <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a></p>
+    </div>
     <hr />
+    <p>
+
+    </p>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.EventName)
@@ -32,26 +38,31 @@
             @Html.DisplayNameFor(model => model.Url)
         </dt>
         <dd>
-            <a href="@Model.Url">@Model.Url</a>
+            <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a>
         </dd>
         <dt>
             Claimed Codes
         </dt>
         <dd>
             @Model.Codes.Where(o=>o.Claimed).Count() claimed codes:
-            <p>
-                @string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
-                </p>
-                @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
-</dd>
+
+            @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
+            {
+                <span>@c, </span>
+            }
+            <br />
+            @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
+        </dd>
         <dt>
             Un-Claimed Codes
         </dt>
         <dd>
             @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
-            <p>
-            @string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
-            </p>
+            @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
+            {
+                <span>@c, </span>
+            }
+            <br />
             @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" })
         </dd>
     </dl>
