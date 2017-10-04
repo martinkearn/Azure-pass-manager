@@ -49,7 +49,7 @@ namespace APM.Web.Controllers
                     Thread.Sleep(2000);
 
                     // redirect to details page
-                    return RedirectToAction("Details", "Events", new { eventName = codeBatch.EventName });
+                    return RedirectToAction("Details", "AdminEvents", new { eventName = codeBatch.EventName });
                 }
                 else
                 {

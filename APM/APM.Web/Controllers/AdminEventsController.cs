@@ -41,7 +41,7 @@ namespace APM.Web.Controllers
             //check security
             if (evnt.Owner.ToLower() == CurrentUser().ToLower())
             {
-                var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
+                var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/event/{evnt.EventName}";
                 ViewData["AbsoluteUrl"] = absoluteUrl;
                 return View(evnt);
             }

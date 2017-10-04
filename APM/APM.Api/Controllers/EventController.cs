@@ -40,7 +40,6 @@ namespace APM.Api.Controllers
             //all of this assumes all codes in the same EventName have common values
             var owner = codesInEvent.FirstOrDefault().Owner;
             var expiry = codesInEvent.FirstOrDefault().Expiry;
-            var url = Helpers.Helpers.EventNameToEventUrl(eventName);
             var codes = codesInEvent;
 
             //create Event object
@@ -49,8 +48,7 @@ namespace APM.Api.Controllers
                 Codes = codes,
                 EventName = eventName,
                 Expiry = expiry,
-                Owner = owner,
-                Url = url
+                Owner = owner
             };
 
             return Ok(evnt);

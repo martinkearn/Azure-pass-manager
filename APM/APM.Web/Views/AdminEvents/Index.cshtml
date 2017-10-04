@@ -5,7 +5,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-<p><a asp-controller="Codes" asp-action="Create">Upload codes</a> to create a new event.</p>
+<p><a asp-controller="AdminCodes" asp-action="Create">Upload codes</a> to create a new event.</p>
 
 @if (ViewData["Message"] != null)
 {
@@ -26,9 +26,6 @@
             <th>
                 Codes
             </th>
-            <th>
-                Claim Url
-            </th>
         </tr>
     </thead>
     <tbody>
@@ -42,9 +39,6 @@
             </td>
             <td>
                 <span>@item.Codes.Where(c => c.Claimed).Count() used, @item.Codes.Where(c => !c.Claimed).Count() avaliable</span>
-            </td>
-            <td>
-                <a href="@item.Url">@item.Url</a>
             </td>
         </tr>
 }

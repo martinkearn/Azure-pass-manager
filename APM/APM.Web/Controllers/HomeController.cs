@@ -23,11 +23,20 @@ namespace APM.Web.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public async Task<IActionResult> Event()
         {
-            ViewData["Message"] = "Your contact page.";
+            var eventName = RouteData.Values["eventname"];
+            var eventNameValue = (eventName != null) ? RouteData.Values["eventname"].ToString() : string.Empty;
 
-            return View();
+            if (eventNameValue != null)
+            {
+                var evnt = await _apiRepository.GetEventByEventName(eventNameValue);
+                return View(evnt);
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Error()

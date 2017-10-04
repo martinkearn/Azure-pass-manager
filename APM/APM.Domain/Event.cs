@@ -12,8 +12,6 @@ namespace APM.Domain
 
         public DateTime Expiry { get; set; }
 
-        public string Url { get; set; }
-
         public List<Code> Codes { get; set; }
     }
 }
