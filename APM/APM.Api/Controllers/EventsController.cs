@@ -29,7 +29,7 @@ namespace APM.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string owner)
         {
-            var codes = await _storeRepository.GetCodes(owner);
+            var codes = await _storeRepository.GetCodes();
 
             //get list of unique eventNames for the owner
             var eventNames = codes

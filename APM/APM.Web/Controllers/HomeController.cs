@@ -5,20 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using APM.Web.Models;
+using APM.Web.Interfaces;
 
 namespace APM.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IApiRepository _apiRepository;
+
+        public HomeController(IApiRepository apiRepository)
         {
-            return View();
+            _apiRepository = apiRepository;
         }
 
-        public IActionResult About()
+        public IActionResult Index()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 

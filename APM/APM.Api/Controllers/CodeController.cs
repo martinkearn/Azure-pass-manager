@@ -28,16 +28,17 @@ namespace APM.Api.Controllers
         /// <param name="owner">String containing the owner that the codes shoudl belong to</param>
         /// <returns>Code</returns>
         [HttpGet]
-        public async Task<IActionResult> Get(string owner, string eventName)
+        public async Task<IActionResult> Get(string eventName)
         {
             //ensure params are not null
             var eventNameNotNull = eventName ?? string.Empty;
 
             //Get first avaliable code which matches all criteria
-            var codes = await _storeRepository.GetCodes(owner);
+            var codes = await _storeRepository.GetCodes();
             var code = codes
+                .Where(x => x.EventName.ToLower() == eventName.ToLower())
                 .Where(c => c.Claimed == false)
-                .Where(c => c.EventName.ToLower() == eventNameNotNull.ToLower())
+                .Where(c => c.Expiry >= DateTime.UtcNow)
                 .FirstOrDefault();
 
             if (code != null)

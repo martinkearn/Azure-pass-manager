@@ -32,7 +32,7 @@ namespace APM.Web.Controllers
         // GET: Events/Details/Hackference2017
         public async Task<ActionResult> Details(string eventName)
         {
-            var evnt = await _apiRepository.GetEventByEventName(CurrentUser(), eventName);
+            var evnt = await _apiRepository.GetEventByEventName(eventName);
             var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
             ViewData["AbsoluteUrl"] = absoluteUrl;
             return View(evnt);
@@ -42,7 +42,7 @@ namespace APM.Web.Controllers
         // GET: Events/Delete/Hackference2017
         public async Task<ActionResult> Delete(string eventName)
         {
-            var evnt = await _apiRepository.GetEventByEventName(CurrentUser(), eventName);
+            var evnt = await _apiRepository.GetEventByEventName(eventName);
             return View(evnt);
         }
 
@@ -52,7 +52,7 @@ namespace APM.Web.Controllers
         {
             try
             {
-                await _apiRepository.DeleteEventByEventName(CurrentUser(), eventName);
+                await _apiRepository.DeleteEventByEventName(eventName);
 
                 return RedirectToAction(nameof(Index));
             }

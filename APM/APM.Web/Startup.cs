@@ -63,6 +63,9 @@ namespace APM.Web
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("eventname", "codes/{*eventname}",
+                    defaults: new { controller = "Home", action = "Event" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

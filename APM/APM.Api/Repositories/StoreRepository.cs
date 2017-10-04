@@ -28,7 +28,7 @@ namespace APM.Api.Repositories
             // TO DO: This overwrites codes if someone else has inserted the same batch. need to use owner as the partition key
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
 
-            TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, item.Owner, item.PromoCode);
+            TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, item.EventName, item.PromoCode);
 
             TableOperation insertOperation = TableOperation.InsertOrReplace(entity);
 
@@ -51,7 +51,7 @@ namespace APM.Api.Repositories
                 foreach (var item in listOfItems)
                 {
                     var rowKey = item.PromoCode;
-                    TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, item.Owner, item.PromoCode);
+                    TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, item.EventName, item.PromoCode);
                     batchOperation.InsertOrReplace(entity);
                 }
 
@@ -61,13 +61,13 @@ namespace APM.Api.Repositories
 
         }
 
-        public async Task DeleteCode(string owner, string id)
+        public async Task DeleteCode(string eventName, string id)
         {
             //get cloudtable
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
 
             // Create a retrieve operation that expects a the right entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(owner, id);
+            TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(eventName, id);
 
             // Execute the operation.
             TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
@@ -86,7 +86,7 @@ namespace APM.Api.Repositories
             }
         }
 
-        public async Task DeleteCodes(string owner, string codeIds)
+        public async Task DeleteCodes(string eventName, string codeIds)
         {
             //get cloudtable
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
@@ -106,7 +106,7 @@ namespace APM.Api.Repositories
                 foreach (var item in listOfItems)
                 {
                     // Create a retrieve operation that takes an entity.
-                    TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(owner, item);
+                    TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(eventName, item);
 
                     // Execute the retrieve operation.
                     TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
@@ -123,13 +123,13 @@ namespace APM.Api.Repositories
             }
         }
 
-        public async Task<Code> GetCode(string owner, string id)
+        public async Task<Code> GetCode(string eventName, string id)
         {
             //get cloudtable
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
 
             // Create a retrieve operation that takes an entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(owner, id);
+            TableOperation retrieveOperation = TableOperation.Retrieve<TableEntityAdapter<Code>>(eventName, id);
 
             // Execute the retrieve operation.
             TableResult retrievedResult = await table.ExecuteAsync(retrieveOperation);
@@ -147,16 +147,18 @@ namespace APM.Api.Repositories
             }
         }
 
-        public async Task<List<Code>> GetCodes(string owner)
+        public async Task<List<Code>> GetCodes()
         {
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
 
             TableContinuationToken token = null;
 
             var entities = new List<TableEntityAdapter<Code>>();
+            //TableQuery<TableEntityAdapter<Code>> query = new TableQuery<TableEntityAdapter<Code>>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, eventName));
+            TableQuery<TableEntityAdapter<Code>> query = new TableQuery<TableEntityAdapter<Code>>();
             do
             {
-                var queryResult = await table.ExecuteQuerySegmentedAsync(new TableQuery<TableEntityAdapter<Code>>(), token);
+                var queryResult = await table.ExecuteQuerySegmentedAsync(query, token);
                 entities.AddRange(queryResult.Results);
                 token = queryResult.ContinuationToken;
             } while (token != null);
@@ -170,9 +172,9 @@ namespace APM.Api.Repositories
 
             //filter by owner
             //TO DO, is there a better way to do this as part of the query?
-            var codesForOwner = codes.Where(c => c.Owner.ToLower() == owner.ToLower()).ToList();
+            //var codesForOwner = codes.Where(c => c.EventName.ToLower() == eventName.ToLower()).ToList();
 
-            return codesForOwner;
+            return codes;
         }
 
         private async Task<CloudTable> GetCloudTable(string tableConnectionString, string containerName)

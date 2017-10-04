@@ -78,7 +78,7 @@ namespace APM.Web.Repositories
             return items;
         }
 
-        public async Task<Event> GetEventByEventName(string owner, string eventName)
+        public async Task<Event> GetEventByEventName(string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
@@ -86,8 +86,7 @@ namespace APM.Web.Repositories
             //construct full API endpoint uri
             var parameters = new Dictionary<string, string>
             {
-                { "EventName", eventName },
-                { "Owner", owner }
+                { "EventName", eventName }
             };
             var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event";
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
@@ -102,7 +101,7 @@ namespace APM.Web.Repositories
             return evnt;
         }
 
-        public async Task DeleteEventByEventName(string owner, string eventName)
+        public async Task DeleteEventByEventName(string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
@@ -110,8 +109,7 @@ namespace APM.Web.Repositories
             //construct full API endpoint uri
             var parameters = new Dictionary<string, string>
             {
-                { "EventName", eventName },
-                { "Owner", owner }
+                { "EventName", eventName }
             };
             var apiBaseUrl = $"{_appSettings.APIBaseUrl}/event";
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
