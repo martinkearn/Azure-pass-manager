@@ -63,7 +63,7 @@ namespace APM.Web.Repositories
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
-            var responseMessage = await httpClient.GetAsync(apiBaseUrl);
+            var responseMessage = await httpClient.GetAsync(apiUri);
 
             //cast to array of items
             var responseString = await responseMessage.Content.ReadAsStringAsync();
