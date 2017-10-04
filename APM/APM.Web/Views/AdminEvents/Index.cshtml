@@ -4,43 +4,52 @@
     ViewData["Title"] = "Your Events";
 }
 
-<h2>@ViewData["Title"]</h2>
-<p><a asp-controller="AdminCodes" asp-action="Create">Upload codes</a> to create a new event.</p>
-
-@if (ViewData["Message"] != null)
-{
-    <div class="alert alert-danger">
-        <p>@ViewData["Message"]</p>
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+        <p>All your events</p>
+        <p><a asp-controller="AdminCodes" asp-action="Create">Upload codes</a> to create a new event.</p>
     </div>
-}
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Expiry)
-            </th>
-            <th>
-                Codes
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.ActionLink(item.EventName, "Details", new { eventName = item.EventName })
-            </td>
-            <td>
-                @item.Expiry.ToLongDateString()
-            </td>
-            <td>
-                <span>@item.Codes.Where(c => c.Claimed).Count() used, @item.Codes.Where(c => !c.Claimed).Count() avaliable</span>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-danger">
+            <p>@ViewData["Message"]</p>
+        </div>
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EventName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Expiry)
+                </th>
+                <th>
+                    Codes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.EventName, "Details", new { eventName = item.EventName })
+                    </td>
+                    <td>
+                        @item.Expiry.ToLongDateString()
+                    </td>
+                    <td>
+                        <span>@item.Codes.Where(c => c.Claimed).Count() used, @item.Codes.Where(c => !c.Claimed).Count() avaliable</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

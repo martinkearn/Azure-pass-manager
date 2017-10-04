@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - APM.Web</title>
+    <title>@ViewData["Title"] - Azure Pass Manager</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -13,10 +13,11 @@
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,27 +27,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">APM.Web</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Azure Pass Manager</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <li><a asp-area="" asp-controller="Codes" asp-action="Create">Upload Codes</a></li>
-                    <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
+                        <li><a asp-area="" asp-controller="AdminCodes" asp-action="Create">Upload Codes</a></li>
+                        <li><a asp-area="" asp-controller="AdminEvents" asp-action="Index">Events</a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+
+
+    <div class="body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - APM.Web</p>
-        </footer>
     </div>
 
     <environment include="Development">

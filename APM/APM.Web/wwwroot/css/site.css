@@ -1,6 +1,31 @@
-﻿body {
+﻿/*Azure blue 0072C6*/
+/*Azure green 89C402*/
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: black !important;
+    color: white;
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+}
+
+
+a {
+    color: #89C402;
+}
+
+    a:hover {
+        color: #89C402;
+        text-decoration: underline;
+    }
+
+    a:visited {
+        color: #89C402;
+    }
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-weight: 200;
 }
 
 /* Wrapping element */
@@ -32,4 +57,42 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.text-info {
+    color: grey;
+}
+
+.well {
+    background-color: #222;
+}
+
+.jumbotron {
+    background-color: #1a1a1a;
+}
+
+.btn {
+    background-color: #89C402;
+    border-color: #89C402;
+    border-radius: 0;
+    font-weight: normal;
+    color: #1a1a1a !important;
+}
+
+    .btn:hover {
+        background-color: #a5ce00;
+        border-color: #a5ce00;
+    }
+
+    .btn:visited {
+        background-color: #a5ce00;
+        border-color: #a5ce00;
+    }
+    
+.btn-primary {
+    font-size: 2.5rem;
+}
+
+.form-control {
+    width: 50%;
 }

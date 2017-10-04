@@ -4,51 +4,54 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Upload Codes</h2>
-<p>You'll have been given a CSV file containing a batch of Azure trial codes that something like 'W8UHD5C5TIC3CG0DDY'.</p>
-<p> If you don't have a CSV, order one at <a href="https://requests.microsoftazurepass.com">requests.microsoftazurepass.com</a>.</p>
-<p>The details you define on this page associate the codes with a specific event and expiration date. Take a note of the event name as you'll need this when directing people on how to claim codes.</p>
-
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EventName" class="control-label"></label>
-                <input asp-for="EventName" class="form-control" />
-                <span asp-validation-for="EventName" class="text-danger"></span>
-                <span class="text-info">The name of the event these codes will be used at</span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Expiry" class="control-label"></label>
-                <input asp-for="Expiry" class="form-control" type="date" />
-                <span asp-validation-for="Expiry" class="text-danger"></span>
-                <span class="text-info">Codes typicaly expire 90 days from the date they were issued, check the email that came with your CSV file. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
-            </div>
-            <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <input type="file" name="file" id="file" class="form-control input">
-                <span class="text-info">Choose a CSV file containing Azure trial codes</span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-
-            </div>
-        </form>
-
-        @if (ViewData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger">
-                <p>@ViewData["ErrorMessage"]</p>
-            </div>
-        }
+<div class="jumbotron">
+    <div class="container">
+        <h1>Upload Codes</h1>
+        <p>You'll have been given a CSV file containing a batch of Azure trial codes that something like 'W8UHD5C5TIC3CG0DDY'.</p>
+        <p> If you don't have a CSV, order one at <a href="https://requests.microsoftazurepass.com">requests.microsoftazurepass.com</a>.</p>
+        <p>The details you define on this page associate the codes with a specific event and expiration date. Take a note of the event name as you'll need this when directing people on how to claim codes.</p>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="EventName" class="control-label"></label>
+                    <input asp-for="EventName" class="form-control" />
+                    <span asp-validation-for="EventName" class="text-danger"></span>
+                    <span class="text-info">The name of the event these codes will be used at</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Expiry" class="control-label"></label>
+                    <input asp-for="Expiry" class="form-control" type="date" />
+                    <span asp-validation-for="Expiry" class="text-danger"></span>
+                    <span class="text-info">Codes typicaly expire 90 days from the date they were issued, check the email that came with your CSV file. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="File" class="control-label"></label>
+                    <input type="file" name="file" id="file" class="form-control input">
+                    <span class="text-info">Choose a CSV file containing Azure trial codes</span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+
+                </div>
+            </form>
+
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    <p>@ViewData["ErrorMessage"]</p>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

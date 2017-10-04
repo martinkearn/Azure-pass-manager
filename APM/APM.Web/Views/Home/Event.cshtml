@@ -1,45 +1,60 @@
 ﻿@model APM.Domain.Event
 
 @{
-    ViewData["Title"] = "Event";
+    ViewData["Title"] = Model.EventName;
 }
 
-@if (@Model == null)
-{
-    <p>No matching event</p>
-}
-else
-{
-    <h2>Event</h2>
-
-    <div>
-        <h4>Event</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.EventName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.EventName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Owner)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Owner)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Expiry)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Expiry)
-            </dd>
-        </dl>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Welcome to @ViewData["Title"]</h1>
+        <p class="lead">We're about to give you an Azure trial code.</p>
+        <p>These codes give you $100 of free Azure credits.</p>
+        <p>Only claim a code if you plan to use it. We have a limited number and we'll assume the code has been claimed as soon as we show it to you.</p>
     </div>
-    <div>
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-        <a asp-action="Index">Back to List</a>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (@Model == null)
+            {
+                <p>No matching event</p>
+            }
+            else
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EventName)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EventName)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Owner)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Owner)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Expiry)
+                    </dt>
+                    <dd>
+                        @Model.Expiry.ToShortDateString()
+                    </dd>
+                    <dt>
+                        Codes avaliable
+                    </dt>
+                    <dd>
+                        @Model.Codes.Where(c => !c.Claimed).Count()
+                    </dd>
+                </dl>
+
+                <form asp-action="ClaimCode">
+                    <input type="text" hidden id="eventName" name="eventName" value="@Model.EventName">
+                    <button type="submit" class="btn btn-primary">Claim Code Now</button>
+                </form>
+            }
+        </div>
     </div>
-}
-
-
+</div>

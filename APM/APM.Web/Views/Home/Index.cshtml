@@ -2,10 +2,32 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="jumbotron">
+    <div class="container">
+        <h1>Hey there</h1>
+        <p class="lead">You seem to be looking for an Azure trial code.</p>
+        <p>You're in the right place but you need an Event Name</p>
+        <p>See your Microsoft representative to get one and enter it below.</p>
+    </div>
+</div>
 
-
-<div class="row">
-    <div class="col-md-12">
-        <p>This site will help you get a code to start an Azure trial.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Index">
+                <div class="form-group">
+                    <label for="email">Event Name:</label>
+                    <input type="text" class="form-control" id="eventName" name="eventName">
+                </div>
+                <button type="submit" class="btn btn-default">Find Event</button>
+            </form> 
+            <br />
+            @if (ViewData["message"] != null)
+            {
+                <div class="alert alert-danger">
+                    <p>@ViewData["message"]</p>
+                </div>
+            }
+        </div>
     </div>
 </div>

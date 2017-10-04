@@ -1,0 +1,23 @@
+﻿@model APM.Domain.Code
+@{
+    ViewData["Title"] = "Your Code";
+}
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewData["Title"] for @Model.EventName</h1>
+        <p class="lead">This is your very own Azure trial code.</p>
+        <p>Write this down, once you leave this page, we can't show you the code again.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <span class="lead">@Model.PromoCode</span>
+            </div>
+            <p>You can activate your code at <a href="https://www.microsoftazurepass.com/">https://www.microsoftazurepass.com</a></p>
+            <p>For detailed instructions check out the guide here: <a href=" https://aka.ms/StartWithAzure">https://aka.ms/StartWithAzure</a> </p>
+        </div>
+    </div>
+</div>

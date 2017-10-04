@@ -4,71 +4,75 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
-@if (ViewData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        <p>@ViewData["ErrorMessage"]</p>
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewData["Title"] - @Model.EventName</h1>
+        <p>Event details. See used/un-used codes and download them into a CSV.</p>
     </div>
-}
-
-<div>
-    <h4>@Model.EventName</h4>
-    <div class="well">
-        <p class="lead">Instruct delegates to claim codes at <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a></p>
-    </div>
-    <hr />
-    <p>
-
-    </p>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EventName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EventName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Owner)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Owner)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Expiry)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Expiry)
-        </dd>
-        <dt>
-            Claimed Codes
-        </dt>
-        <dd>
-            @Model.Codes.Where(o=>o.Claimed).Count() claimed codes:
-
-            @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
-            {
-                <span>@c, </span>
-            }
-            <br />
-            @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
-        </dd>
-        <dt>
-            Un-Claimed Codes
-        </dt>
-        <dd>
-            @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
-            @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
-            {
-                <span>@c, </span>
-            }
-            <br />
-            @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" })
-        </dd>
-    </dl>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a> | 
-    @Html.ActionLink("Delete event and asscoiated codes", "Delete", new { eventName = Model.EventName })
+
+<div class="container">
+
+    @if (ViewData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <p>@ViewData["ErrorMessage"]</p>
+        </div>
+    }
+
+    <div>
+        <div class="well">
+            <span class="lead">Instruct delegates to claim codes at <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a></span>
+        </div>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.EventName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EventName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Owner)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Owner)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Expiry)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Expiry)
+            </dd>
+            <dt>
+                Claimed Codes
+            </dt>
+            <dd>
+                @Model.Codes.Where(o => o.Claimed).Count() claimed codes:
+
+                @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
+            {
+                    <span>@c, </span>
+                }
+                <br />
+                @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
+            </dd>
+            <dt>
+                Un-Claimed Codes
+            </dt>
+            <dd>
+                @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
+                @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
+            {
+                    <span>@c, </span>
+                }
+                <br />
+                @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" })
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a> |
+        @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName })
+    </div>
 </div>

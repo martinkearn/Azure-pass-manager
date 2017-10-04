@@ -89,7 +89,7 @@ namespace APM.Web.Controllers
                     }
                     else
                     {
-                        ViewData["ErrorMessage"] = "There was a problem deleting the event.";
+                        ViewData["message"] = "There was a problem deleting the event.";
                         return View();
                     }
                 }

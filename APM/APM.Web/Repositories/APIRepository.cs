@@ -67,17 +67,24 @@ namespace APM.Web.Repositories
             //make request
             var responseMessage = await httpClient.GetAsync(apiUri);
 
-            //cast to array of items
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-            var responseArray = JArray.Parse(responseString);
-            var items = new List<Event>();
-            foreach (var response in responseArray)
+            if (responseMessage.IsSuccessStatusCode)
             {
-                var item = JsonConvert.DeserializeObject<Event>(response.ToString());
-                items.Add(item);
-            }
+                //cast to array of items
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var responseArray = JArray.Parse(responseString);
+                var items = new List<Event>();
+                foreach (var response in responseArray)
+                {
+                    var item = JsonConvert.DeserializeObject<Event>(response.ToString());
+                    items.Add(item);
+                }
 
-            return items;
+                return items;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Event> GetEventByEventName(string eventName)
@@ -96,11 +103,18 @@ namespace APM.Web.Repositories
             //make request
             var responseMessage = await httpClient.GetAsync(apiUri);
 
-            //cast to item
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-            var evnt = JsonConvert.DeserializeObject<Event>(responseString.ToString());
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                //cast to item
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var evnt = JsonConvert.DeserializeObject<Event>(responseString.ToString());
 
-            return evnt;
+                return evnt;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> DeleteEventByEventName(string eventName)
@@ -120,6 +134,36 @@ namespace APM.Web.Repositories
             var responseMessage = await httpClient.DeleteAsync(apiUri);
 
             return responseMessage.IsSuccessStatusCode;
+        }
+
+        public async Task<Code> ClaimCode(string eventName)
+        {
+            //setup HttpClient with content
+            var httpClient = GetHttpClient();
+
+            //construct full API endpoint uri
+            var parameters = new Dictionary<string, string>
+            {
+                { "EventName", eventName }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/code";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
+
+            //make request
+            var responseMessage = await httpClient.GetAsync(apiUri);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                //cast to item
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var code = JsonConvert.DeserializeObject<Code>(responseString.ToString());
+
+                return code;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private HttpClient GetHttpClient()
