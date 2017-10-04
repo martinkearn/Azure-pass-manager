@@ -13,11 +13,11 @@ namespace APM.Web.Controllers
     [Authorize]
 #endif
 
-    public class EventsController : Controller
+    public class AdminEventsController : Controller
     {
         private readonly IApiRepository _apiRepository;
 
-        public EventsController(IApiRepository apiRepository)
+        public AdminEventsController(IApiRepository apiRepository)
         {
             _apiRepository = apiRepository;
         }

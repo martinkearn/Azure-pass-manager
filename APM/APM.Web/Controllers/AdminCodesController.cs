@@ -15,11 +15,11 @@ namespace APM.Web.Controllers
 #if (!DEBUG)
     [Authorize]
 #endif
-    public class CodesController : Controller
+    public class AdminCodesController : Controller
     {
         private readonly IApiRepository _apiRepository;
 
-        public CodesController(IApiRepository apiRepository)
+        public AdminCodesController(IApiRepository apiRepository)
         {
             _apiRepository = apiRepository;
         }
