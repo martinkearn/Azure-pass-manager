@@ -154,6 +154,11 @@ namespace APM.Web.Repositories
 
             if (responseMessage.IsSuccessStatusCode)
             {
+                if (responseMessage.ReasonPhrase == "NoContent")
+                {
+                    return null;
+                }
+
                 //cast to item
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var code = JsonConvert.DeserializeObject<Code>(responseString.ToString());

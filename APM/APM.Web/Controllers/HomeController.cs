@@ -44,8 +44,14 @@ namespace APM.Web.Controllers
 
         }
 
-        public async Task<IActionResult> Event()
+        public async Task<IActionResult> Event(string message)
         {
+            if (!string.IsNullOrEmpty(message))
+            {
+                ViewData["Message"] = message;
+                return View();
+            }
+
             var eventName = RouteData.Values["eventname"];
             var eventNameValue = (eventName != null) ? RouteData.Values["eventname"].ToString() : string.Empty;
 
@@ -56,7 +62,8 @@ namespace APM.Web.Controllers
             }
             else
             {
-                return View();
+                message = $"Could not find event {eventNameValue}. Please contact your Microsoft representative.";
+                return RedirectToAction("Index", new { message = message });
             }
         }
 
@@ -68,7 +75,16 @@ namespace APM.Web.Controllers
             if (eventName != null)
             {
                 var code = await _apiRepository.ClaimCode(eventName);
-                return View(code);
+
+                if (code == null)
+                {
+                    var message = $"Could not get a code for {eventName}. We may have ranout of codes for this event. Contact your Microsoft representative.";
+                    return RedirectToAction("Event", new { message = message });
+                }
+                else
+                {
+                    return View(code);
+                }
             }
             else
             {

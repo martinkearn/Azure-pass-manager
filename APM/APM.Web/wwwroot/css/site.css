@@ -30,10 +30,10 @@ a {
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
-.body-content {
+/*.body-content {
     padding-left: 15px;
     padding-right: 15px;
-}
+}*/
 
 /* Carousel */
 .carousel-caption p {
@@ -59,6 +59,12 @@ a {
     }
 }
 
+.alert-danger {
+    color: white;
+    background-color: red;
+    border-color: red;
+}
+
 .text-info {
     color: grey;
 }
@@ -69,6 +75,7 @@ a {
 
 .jumbotron {
     background-color: #1a1a1a;
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/images/dev.png');
 }
 
 .btn {

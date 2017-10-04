@@ -22,7 +22,9 @@
 
     <div>
         <div class="well">
-            <span class="lead">Instruct delegates to claim codes at <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a></span>
+            <p class="lead">Instruct delegates to claim codes at <a href="@ViewData["AbsoluteUrl"]">@ViewData["AbsoluteUrl"]</a></p>
+            <p>You may want to use <a href="http://aka.ms">http://aka.ms</a> to create an easy-to-remember short link for this.</p>
+
         </div>
 
         <dl class="dl-horizontal">
@@ -72,7 +74,6 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Index">Back to List</a> |
-        @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName })
+        @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName }, new { @class = "btn btn-secondary" })
     </div>
 </div>
