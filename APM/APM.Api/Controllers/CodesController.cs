@@ -35,6 +35,20 @@ namespace APM.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CodeBatch codeBatch)
         {
+            //check that the eventname is unique
+            //get all codes
+            var allCodes = await _storeRepository.GetCodes();
+
+            //filter codes on EventName
+            var codesInEvent = allCodes
+                .Where(x => x.EventName.ToLower() == codeBatch.EventName.ToLower())
+                .ToList();
+
+            if (codesInEvent.Count > 0)
+            {
+                return BadRequest("Event Name is not unique");
+            }
+
             // Get file into an array of strings
             byte[] file = Helpers.Helpers.ReadFileStream(Request.Body);
             codeBatch.File = file;

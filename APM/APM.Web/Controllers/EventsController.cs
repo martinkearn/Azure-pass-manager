@@ -23,8 +23,12 @@ namespace APM.Web.Controllers
         }
 
         // GET: Events
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string message)
         {
+            if (!string.IsNullOrEmpty(message))
+            {
+                ViewData["Message"] = message;
+            }
             var eventsForOwner = await _apiRepository.GetEventsByOwner(CurrentUser());
             return View(eventsForOwner);
         }
@@ -33,9 +37,19 @@ namespace APM.Web.Controllers
         public async Task<ActionResult> Details(string eventName)
         {
             var evnt = await _apiRepository.GetEventByEventName(eventName);
-            var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
-            ViewData["AbsoluteUrl"] = absoluteUrl;
-            return View(evnt);
+
+            //check security
+            if (evnt.Owner.ToLower() == CurrentUser().ToLower())
+            {
+                var absoluteUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{evnt.Url}";
+                ViewData["AbsoluteUrl"] = absoluteUrl;
+                return View(evnt);
+            }
+            else
+            {
+                var message = $"You cannot view events that you did not create. Please contact {evnt.Owner} who is the owner of this event.";
+                return RedirectToAction("Index", new { message = message });
+            }
         }
 
 
@@ -43,22 +57,51 @@ namespace APM.Web.Controllers
         public async Task<ActionResult> Delete(string eventName)
         {
             var evnt = await _apiRepository.GetEventByEventName(eventName);
-            return View(evnt);
+
+            //check security
+            if (evnt.Owner.ToLower() == CurrentUser().ToLower())
+            {
+                return View(evnt);
+            }
+            else
+            {
+                var message = $"You cannot view events that you did not create. Please contact {evnt.Owner} who is the owner of this event.";
+                return RedirectToAction("Index", new { message = message });
+            }
         }
 
         [HttpPost]
         // GET: Events/Delete/Hackference2017
         public async Task<ActionResult> Delete(string eventName, IFormCollection collection)
         {
-            try
-            {
-                await _apiRepository.DeleteEventByEventName(eventName);
+            var evnt = await _apiRepository.GetEventByEventName(eventName);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            //check security
+            if (evnt.Owner.ToLower() == CurrentUser().ToLower())
             {
-                return View();
+                try
+                {
+                    var isSucess = await _apiRepository.DeleteEventByEventName(eventName);
+
+                    if (isSucess)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewData["ErrorMessage"] = "There was a problem deleting the event.";
+                        return View();
+                    }
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                var message = $"You cannot view events that you did not create. Please contact {evnt.Owner} who is the owner of this event.";
+                return RedirectToAction("Index", new { message = message });
             }
         }
 

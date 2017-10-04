@@ -33,7 +33,7 @@ namespace APM.Web.Controllers
         // POST: CodeBatch/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {
@@ -41,13 +41,22 @@ namespace APM.Web.Controllers
                 var codeBatch = CastFormCollectionToCodeBatch(collection, Request.Form.Files.FirstOrDefault());
 
                 //post
-                _apiRepository.StoreCodeBatch(codeBatch);
+                var isSucess = await _apiRepository.StoreCodeBatch(codeBatch);
 
-                //sleep the thread before redirecting because it takes a few second for the items to be added to storage.
-                Thread.Sleep(2000);
+                if (isSucess)
+                {
+                    //sleep the thread before redirecting because it takes a few second for the items to be added to storage.
+                    Thread.Sleep(2000);
 
-                // redirect to details page
-                return RedirectToAction("Details", "Events", new { eventName = codeBatch.EventName });
+                    // redirect to details page
+                    return RedirectToAction("Details", "Events", new { eventName = codeBatch.EventName });
+                }
+                else
+                {
+                    ViewData["ErrorMessage"] = "There was a problem storing the code batch. Check that the event name was unique and that the CSV is properly formatted";
+                    return View();
+                }
+
             }
             catch
             {

@@ -25,7 +25,7 @@ namespace APM.Web.Repositories
             _appSettings = appSettings.Value;
         }
 
-        public async Task StoreCodeBatch(CodeBatch codeBatch)
+        public async Task<bool> StoreCodeBatch(CodeBatch codeBatch)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
@@ -47,6 +47,8 @@ namespace APM.Web.Repositories
 
             //make request
             var responseMessage = await httpClient.PostAsync(apiUri, content);
+
+            return responseMessage.IsSuccessStatusCode;
         }
 
         public async Task<IEnumerable<Event>> GetEventsByOwner(string owner)
@@ -101,7 +103,7 @@ namespace APM.Web.Repositories
             return evnt;
         }
 
-        public async Task DeleteEventByEventName(string eventName)
+        public async Task<bool> DeleteEventByEventName(string eventName)
         {
             //setup HttpClient with content
             var httpClient = GetHttpClient();
@@ -116,6 +118,8 @@ namespace APM.Web.Repositories
 
             //make request
             var responseMessage = await httpClient.DeleteAsync(apiUri);
+
+            return responseMessage.IsSuccessStatusCode;
         }
 
         private HttpClient GetHttpClient()

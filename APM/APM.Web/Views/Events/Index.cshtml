@@ -7,6 +7,13 @@
 <h2>@ViewData["Title"]</h2>
 <p><a asp-controller="Codes" asp-action="Create">Upload codes</a> to create a new event.</p>
 
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewData["Message"]</p>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>

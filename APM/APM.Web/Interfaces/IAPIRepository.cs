@@ -8,12 +8,12 @@ namespace APM.Web.Interfaces
 {
     public interface IApiRepository
     {
-        Task StoreCodeBatch(CodeBatch codeBatch);
+        Task<bool> StoreCodeBatch(CodeBatch codeBatch);
 
         Task<IEnumerable<Event>> GetEventsByOwner(string owner);
 
         Task<Event> GetEventByEventName(string eventName);
 
-        Task DeleteEventByEventName(string eventName);
+        Task<bool> DeleteEventByEventName(string eventName);
     }
 }
