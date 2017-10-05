@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using APM.Api.Interfaces;
+using APM.Domain;
 
 namespace APM.Api.Controllers
 {
@@ -59,6 +60,20 @@ namespace APM.Api.Controllers
 
         }
 
+        /// <summary>
+        /// Updates a code in storage by replacing exitsing one with what was passed in
+        /// </summary>
+        /// <param name="code">A code object whic is to be updated</param>
+        /// <returns>The code object which was updated</returns>
+        [HttpPut]
+        public async Task<IActionResult> Put(Code code)
+        {
+            if (code == null) return BadRequest("Invalid data passed in");
 
+            //replace code in storage
+            await _storeRepository.StoreCode(code);
+
+            return Ok(code);
+        }
     }
 }

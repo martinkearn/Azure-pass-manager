@@ -25,7 +25,6 @@ namespace APM.Api.Repositories
 
         public async Task StoreCode(Code item)
         {
-            // TO DO: This overwrites codes if someone else has inserted the same batch. need to use owner as the partition key
             var table = await GetCloudTable(_appSecretSettings.TableStorageConnectionString, _appSettings.TableStorageContainerName);
 
             TableEntityAdapter<Code> entity = new TableEntityAdapter<Code>(item, item.EventName, item.PromoCode);
