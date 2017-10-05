@@ -49,7 +49,7 @@ namespace APM.Web.Controllers
 
                 if (isSucess)
                 {
-                    //sleep the thread before redirecting because it takes a few second for the items to be added to storage.
+                    //sleep the thread before redirecting because it takes a few seconds for the items to be added to storage.
                     Thread.Sleep(2000);
 
                     // redirect to details page

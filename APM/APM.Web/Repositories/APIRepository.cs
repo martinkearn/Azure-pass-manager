@@ -146,7 +146,7 @@ namespace APM.Web.Repositories
             {
                 { "EventName", eventName }
             };
-            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/code";
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/claim";
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
 
             //make request
@@ -169,6 +169,30 @@ namespace APM.Web.Repositories
             {
                 return null;
             }
+        }
+
+        public async Task<bool> UpdateCode(Code code)
+        {
+            //setup HttpClient with content
+            var httpClient = GetHttpClient();
+
+            //construct full API endpoint uri
+            DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("en-US").DateTimeFormat;
+            var parameters = new Dictionary<string, string>
+            {
+                { "PromoCode", code.PromoCode },
+                { "Expiry", code.Expiry.ToString(dtfi) },
+                { "Claimed", code.Claimed.ToString() },
+                { "EventName", code.EventName },
+                { "Owner", code.Owner },
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/code";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
+
+            //make request
+            var responseMessage = await httpClient.PutAsync(apiUri, null);
+
+            return responseMessage.IsSuccessStatusCode;
         }
 
         private HttpClient GetHttpClient()
