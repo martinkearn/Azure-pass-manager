@@ -40,6 +40,8 @@ You'll need to tell delegates at your event how to get their codes. There are tw
 * Give them a direct URL for your event's `Code Claim` page. You can get the URL on the event details page. You can get a vanity URL at http://aka.ms if you'd like to (recommended).
 * Give them the event name and direct them to the http://aka.ms/AzurePassManager where they will be prompted to find the event by entering the event name. Spaces should be included and it is not case sensitive.
 
+If delegates attempt to claim more than one code, they may receive an error that says something like _"Cheeky! ... You have already requested a code for the EVENTNAMEGOESHERE on this machine and it was CODEGOESHERE. Contact your Microsoft representative if you really need a second code."_. If you would like to for them to get a second code, tell them to either use another device or to clear their browser cookies.
+
 ### Getting data about your event
 When your event is completed, you may want to see data about how many codes were claimed, to do this
 1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
