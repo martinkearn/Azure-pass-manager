@@ -103,3 +103,7 @@ a {
 .form-control {
     width: 50%;
 }
+
+.modal {
+    color: black;
+}

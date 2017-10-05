@@ -31,6 +31,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a href="#" data-toggle="modal" data-target="#issuesModal">Issues / Feedback?</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="AdminCodes" asp-action="Create">Upload Codes</a></li>
@@ -42,6 +43,24 @@
         </div>
     </nav>
 
+    <!-- Modal -->
+    <div class="modal fade" id="issuesModal" tabindex="-1" role="dialog" aria-labelledby="issuesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="issuesModalLabel">Having issues?</h2>
+                </div>
+                <div class="modal-body">
+                    <p>If you have issues, feedback, comments or feature requests, we want to hear them!</p>
+                    <p>This is an open-source project hosted on GitHub, please log your issues at <a href="https://github.com/martinkearn/Azure-pass-manager/issues">github.com/martinkearn/Azure-pass-manager/issues</a>.</p>
+                    <p>If you'd rather not use GitHub, you can <a href="https://twitter.com/MartinKearn">Tweet me</a> instead.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="body-content">
         @RenderBody()
