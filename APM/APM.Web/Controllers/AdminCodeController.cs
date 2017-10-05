@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using APM.Web.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APM.Web.Controllers
 {
