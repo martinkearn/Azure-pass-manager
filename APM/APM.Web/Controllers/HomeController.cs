@@ -13,6 +13,7 @@ namespace APM.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IApiRepository _apiRepository;
+        private const string _existingCodeCookieKey = "apmexistingcode";
 
         public HomeController(IApiRepository apiRepository)
         {
@@ -72,6 +73,14 @@ namespace APM.Web.Controllers
         {
             var eventName = collection["eventName"].ToString();
 
+            //Check if the cookie is present (indicating this user has already had a code in the past 7 days for this event)
+            var existingCode = Request.Cookies[_existingCodeCookieKey];
+            if (existingCode != null) 
+            {
+                var message = $"Cheeky! ... You have already requested a code for the {eventName} on this machine and it was {existingCode}. Contact your Microsoft representative if you really need a second code.";
+                return RedirectToAction("Event", new { message = message });
+            }
+            
             if (eventName != null)
             {
                 var code = await _apiRepository.ClaimCode(eventName);
@@ -83,6 +92,20 @@ namespace APM.Web.Controllers
                 }
                 else
                 {
+                    //Drop cookie to prevent accidental multiple codes requests
+                    Response.Cookies.Append(
+                        _existingCodeCookieKey,
+                        code.PromoCode,
+                        new CookieOptions()
+                        {
+                            Path = "/",
+                            HttpOnly = false,
+                            Secure = false,
+                            Expires = DateTime.UtcNow.AddDays(7)
+                        }
+                    );
+
+                    //return view
                     return View(code);
                 }
             }
