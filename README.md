@@ -23,21 +23,34 @@ Please use the [GitHub issues](https://github.com/martinkearn/Azure-pass-manager
 ## Usage - Administrators (the people with the codes)
 If you work for Microsoft and handle Azure trial codes, this section is for you.
 
-### Getting started, just the basics
+### Getting your codes
+You'll need some Azure codes first. This is not handled by the Azure Pass Manager system, but it is easy to request in another system.
+1. Order codes at https://requests.microsoftazurepass.com.
+1. If you request is approved, you'll receive an email with your codes as a CSV file and the expiration date.
+
+### Upload your codes and create an event
 Follow these steps to get up and running
-1. Order codes at https://requests.microsoftazurepass.com. If you request is approved, you'll receive your codes as a CSV file and you'll be told what the expiration date is.
 1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
 1. Go to `Upload Codes` and set a name for your event (make it simple and easy to remember), expiration date for the codes (you'll have been told this in the email that contained your CSV) and upload the CSV
 1. Your event is live and codes are available to use. You can view/manage your events at `Your Events`. View your event to see the URL you should direct users to in order to claim their code
 1. (optional) You may want to use http://aka.ms to setup a short URL for your event; your call.
 
-### After your event
+### Instructing delegates
+You'll need to tell delegates at your event how to get their codes. There are two choices:
+* Give them a direct URL for your event's `Code Claim` page. You can get the URL on the event details page. You can get a vanity URL at http://aka.ms if you'd like to (recommended).
+* Give them the event name and direct them to the http://aka.ms/AzurePassManager where they will be prompted to find the event by entering the event name. Spaces should be included and it is not case sensitive.
+
+### Getting data about your event
 When your event is completed, you may want to see data about how many codes were claimed, to do this
 1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
-1. You can view/manage your events at `Your Events`
-1. You can view data about used/un-used codes and export them as a CSV
+1. View/manage your events at `Your Events`
+1. You can view data about used/un-used codes and optionally export them as a CSV (they might be useful at a future event?) 
 
-If you want to clear your event you can optionally export unused codes (they might be useful at a future event?) and then simply `Delete event and codes` to remove your event and all codes from the system.
+### Removing your event and its codes
+If you want to clear your event, consider exporting unused codes first, then follow these steps.
+1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
+1. View/manage your events at `Your Events`
+1. Simply `Delete event and codes` to remove your event and all codes from the system.
 
 ## Contact me
 Contact Martin.Kearn@Microsoft.com with comments and feedback that you don't want to log as a [GitHub issue](https://github.com/martinkearn/Azure-pass-manager/issues).
