@@ -16,3 +16,28 @@ This repository is built with thanks and gratitude on the work of a small team w
 * [Christine Matheney](https://twitter.com/Matheneyc)
 * [Sudhir Rawat](https://twitter.com/rawatsudhir)
 * [Martin Kearn](https://twitter.com/MartinKearn)
+
+## Issues, feedback, feature requests etc
+Please use the [GitHub issues](https://github.com/martinkearn/Azure-pass-manager/issues) section to log all feedback.
+
+## Usage - Administrators (the people with the codes)
+If you work for Microsoft and handle Azure trial codes, this section is for you.
+
+### Getting started, just the basics
+Follow these steps to get up and running
+1. Order codes at https://requests.microsoftazurepass.com. If you request is approved, you'll receive your codes as a CSV file and you'll be told what the expiration date is.
+1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
+1. Go to `Upload Codes` and set a name for your event (make it simple and easy to remember), expiration date for the codes (you'll have been told this in the email that contained your CSV) and upload the CSV
+1. Your event is live and codes are available to use. You can view/manage your events at `Your Events`. View your event to see the URL you should direct users to in order to claim their code
+1. (optional) You may want to use http://aka.ms to setup a short URL for your event; your call.
+
+### After your event
+When your event is completed, you may want to see data about how many codes were claimed, to do this
+1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials
+1. You can view/manage your events at `Your Events`
+1. You can view data about used/un-used codes and export them as a CSV
+
+If you want to clear your event you can optionally export unused codes (they might be useful at a future event?) and then simply `Delete event and codes` to remove your event and all codes from the system.
+
+## Contact me
+Contact Martin.Kearn@Microsoft.com with comments and feedback that you don't want to log as a [GitHub issue](https://github.com/martinkearn/Azure-pass-manager/issues).
