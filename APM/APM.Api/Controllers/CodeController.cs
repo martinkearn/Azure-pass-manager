@@ -38,7 +38,7 @@ namespace APM.Api.Controllers
             var codes = await _storeRepository.GetCodes();
             var code = codes
                 .Where(x => x.EventName.ToLower() == eventName.ToLower())
-                .Where(c => c.PromoCode == promoCode.ToLower())
+                .Where(c => c.PromoCode.ToLower() == promoCode.ToLower())
                 .FirstOrDefault();
 
             if (code != null)

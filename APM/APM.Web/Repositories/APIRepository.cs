@@ -171,6 +171,42 @@ namespace APM.Web.Repositories
             }
         }
 
+        public async Task<Code> GetCode(string eventName, string promoCode)
+        {
+            //setup HttpClient with content
+            var httpClient = GetHttpClient();
+
+            //construct full API endpoint uri
+            var parameters = new Dictionary<string, string>
+            {
+                { "EventName", eventName },
+                { "PromoCode", promoCode }
+            };
+            var apiBaseUrl = $"{_appSettings.APIBaseUrl}/code";
+            var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);
+
+            //make request
+            var responseMessage = await httpClient.GetAsync(apiUri);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                if (responseMessage.ReasonPhrase == "NoContent")
+                {
+                    return null;
+                }
+
+                //cast to item
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var code = JsonConvert.DeserializeObject<Code>(responseString.ToString());
+
+                return code;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> UpdateCode(Code code)
         {
             //setup HttpClient with content

@@ -4,43 +4,41 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using APM.Web.Interfaces;
 
 namespace APM.Web.Controllers
 {
+#if (!DEBUG)
+    [Authorize]
+#endif
     public class AdminCodeController : Controller
     {
+        private readonly IApiRepository _apiRepository;
+
+        public AdminCodeController(IApiRepository apiRepository)
+        {
+            _apiRepository = apiRepository;
+        }
+
         // GET: AdminCode
         public ActionResult Index()
         {
-            return View();
+            //no reason to arrive here so redirect to events index action
+            return RedirectToAction("Index", "AdminEvents");
         }
 
         // GET: AdminCode/Details/
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(string eventName, string promoCode)
         {
-            return View();
-        }
+            var code = await _apiRepository.GetCode(eventName, promoCode);
 
-        // GET: AdminCode/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AdminCode/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            if (code == null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "AdminEvents");
             }
-            catch
+            else
             {
-                return View();
+                return View(code);
             }
         }
 
@@ -67,27 +65,5 @@ namespace APM.Web.Controllers
             }
         }
 
-        // GET: AdminCode/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AdminCode/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

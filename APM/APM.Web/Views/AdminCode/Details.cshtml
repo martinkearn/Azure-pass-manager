@@ -1,0 +1,59 @@
+﻿@model APM.Domain.Code
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>@ViewData["Title"] - @Model.PromoCode</h1>
+        <p>Code details. See the details of a specific code and make a limited set of modifications</p>
+    </div>
+</div>
+
+<div class="container">
+
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-danger">
+            <p>@ViewData["Message"]</p>
+        </div>
+    }
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PromoCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PromoCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Expiry)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Expiry)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Claimed)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Claimed)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EventName)
+            </dt>
+            <dd>
+                <a asp-controller="AdminEvents" asp-action="Details" asp-route-eventname="@Model.EventName">@Model.EventName</a>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Owner)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Owner)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        buttons here
+    </div>
+</div>

@@ -53,11 +53,9 @@
                 @Model.Codes.Where(o => o.Claimed).Count() claimed codes:
 
                 @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
-            {
-                    <span>@c, </span>
+                {
+                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
                 }
-                <br />
-                @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" })
             </dd>
             <dt>
                 Un-Claimed Codes
@@ -65,15 +63,15 @@
             <dd>
                 @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
                 @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
-            {
-                    <span>@c, </span>
+                {
+                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
                 }
-                <br />
-                @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" })
             </dd>
         </dl>
     </div>
     <div>
         @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName }, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" }, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" }, new { @class = "btn btn-secondary" })
     </div>
 </div>

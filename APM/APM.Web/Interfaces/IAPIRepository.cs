@@ -18,6 +18,8 @@ namespace APM.Web.Interfaces
 
         Task<Code> ClaimCode(string eventName);
 
+        Task<Code> GetCode(string eventName, string promoCode);
+
         Task<bool> UpdateCode(Code code);
     }
 }
