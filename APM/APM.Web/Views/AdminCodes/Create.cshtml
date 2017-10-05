@@ -20,19 +20,20 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="EventName" class="control-label"></label>
-                    <input asp-for="EventName" class="form-control" />
+                    <input asp-for="EventName" class="form-control" required />
                     <span asp-validation-for="EventName" class="text-danger"></span>
                     <span class="text-info">The name of the event these codes will be used at</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Expiry" class="control-label"></label>
-                    <input asp-for="Expiry" class="form-control" type="date" />
+                    <input asp-for="Expiry" class="form-control" type="date" required />
                     <span asp-validation-for="Expiry" class="text-danger"></span>
                     <span class="text-info">Codes typicaly expire 90 days from the date they were issued, check the email that came with your CSV file. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="File" class="control-label"></label>
-                    <input type="file" name="file" id="file" class="form-control input">
+                    <input asp-for="File" type="file" name="File" id="File" class="form-control input" required>
+                    <span asp-validation-for="File" class="text-danger"></span>
                     <span class="text-info">Choose a CSV file containing Azure trial codes</span>
                 </div>
                 <div class="form-group">
@@ -41,10 +42,10 @@
                 </div>
             </form>
 
-            @if (ViewData["ErrorMessage"] != null)
+            @if (ViewData["message"] != null)
             {
                 <div class="alert alert-danger">
-                    <p>@ViewData["ErrorMessage"]</p>
+                    <p>@ViewData["message"]</p>
                 </div>
             }
         </div>

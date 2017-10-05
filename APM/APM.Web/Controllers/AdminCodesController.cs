@@ -39,6 +39,10 @@ namespace APM.Web.Controllers
             {
                 //get CodeBatch object
                 var codeBatch = CastFormCollectionToCodeBatch(collection, Request.Form.Files.FirstOrDefault());
+                if (codeBatch == null) {
+                    ViewData["Message"] = "Please make sure all fields have valid values. This includes choosing a CSV file containing codes.";
+                    return View();
+                }
 
                 //post
                 var isSucess = await _apiRepository.StoreCodeBatch(codeBatch);
@@ -53,7 +57,7 @@ namespace APM.Web.Controllers
                 }
                 else
                 {
-                    ViewData["ErrorMessage"] = "There was a problem storing the code batch. Check that the event name was unique and that the CSV is properly formatted";
+                    ViewData["Message"] = "There was a problem storing the code batch. Check that the event name was unique and that the CSV is properly formatted";
                     return View();
                 }
 
@@ -66,6 +70,9 @@ namespace APM.Web.Controllers
 
         private CodeBatch CastFormCollectionToCodeBatch(IFormCollection collection, IFormFile file)
         {
+            //return null if there is no file attached
+            if (file.Length == 0) return null;
+
             byte[] fileBytes = null;
             using (var fileStream = file.OpenReadStream())
             {

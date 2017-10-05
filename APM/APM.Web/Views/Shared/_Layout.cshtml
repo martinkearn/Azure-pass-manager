@@ -35,7 +35,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="AdminCodes" asp-action="Create">Upload Codes</a></li>
-                        <li><a asp-area="" asp-controller="AdminEvents" asp-action="Index">Events</a></li>
+                        <li><a asp-area="" asp-controller="AdminEvents" asp-action="Index">Your Events</a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
