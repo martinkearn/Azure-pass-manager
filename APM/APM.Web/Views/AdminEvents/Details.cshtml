@@ -50,22 +50,16 @@
                 Claimed Codes
             </dt>
             <dd>
-                @Model.Codes.Where(o => o.Claimed).Count() claimed codes:
-
-                @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
-                {
-                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
-                }
+                @Model.Codes.Where(o => o.Claimed).Count() claimed codes
+                <a href="#" data-toggle="modal" data-target="#claimedCodesModal">See claimed codes</a>
             </dd>
             <dt>
-                Un-Claimed Codes
+                Un-claimed Codes
             </dt>
             <dd>
                 @Model.Codes.Where(o => !o.Claimed).Count() unclaimed codes:
-                @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
-                {
-                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
-                }
+                <a href="#" data-toggle="modal" data-target="#unclaimedCodesModal">See un-claimed codes</a>
+
             </dd>
         </dl>
     </div>
@@ -73,5 +67,49 @@
         @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName }, new { @class = "btn btn-secondary" })
         @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" }, new { @class = "btn btn-secondary" })
         @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" }, new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
+<!-- Claimed Codes Modal -->
+<div class="modal fade" id="claimedCodesModal" tabindex="-1" role="dialog" aria-labelledby="claimedCodesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="claimedCodesModalLabel">Claimed codes</h2>
+            </div>
+            <div class="modal-body">
+                <p>@Model.Codes.Where(o => o.Claimed).Count() codes have already been used. @Model.Codes.Where(o => !o.Claimed).Count() are left for this event.</p>
+                <p>The following codes have been claimed already.</p>
+                @foreach (var c in Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())
+                {
+                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- UnClaimed Codes Modal -->
+<div class="modal fade" id="unclaimedCodesModal" tabindex="-1" role="dialog" aria-labelledby="unclaimedCodesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="unclaimedCodesModalLabel">Un-Claimed codes</h2>
+            </div>
+            <div class="modal-body">
+                <p>@Model.Codes.Where(o => o.Claimed).Count() codes have already been used. @Model.Codes.Where(o => !o.Claimed).Count() are left for this event.</p>
+                <p>The following codes are un-claimed and still avaliable.</p>
+                @foreach (var c in Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())
+                {
+                    <a asp-controller="AdminCode" asp-action="Details" asp-route-eventname="@Model.EventName" asp-route-promocode="@c">@c</a>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
