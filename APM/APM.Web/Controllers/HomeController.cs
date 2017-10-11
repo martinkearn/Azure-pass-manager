@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using APM.Web.Models;
 using APM.Web.Interfaces;
 using Microsoft.AspNetCore.Http;
+using APM.Domain;
 
 namespace APM.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IApiRepository _apiRepository;
-        private const string _existingCodeCookieKey = "apmexistingcode";
 
         public HomeController(IApiRepository apiRepository)
         {
@@ -24,7 +24,6 @@ namespace APM.Web.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Index(IFormCollection collection)
@@ -72,42 +71,45 @@ namespace APM.Web.Controllers
         public async Task<IActionResult> ClaimCode(IFormCollection collection)
         {
             var eventName = collection["eventName"].ToString();
-
-            //Check if the cookie is present (indicating this user has already had a code in the past 7 days for this event)
-            var existingCode = Request.Cookies[_existingCodeCookieKey];
-            if (existingCode != null) 
-            {
-                var message = $"Cheeky! ... You have already requested a code for the {eventName} on this machine and it was {existingCode}. Contact your Microsoft representative if you really need a second code.";
-                return RedirectToAction("Event", new { message = message });
-            }
             
             if (eventName != null)
             {
-                var code = await _apiRepository.ClaimCode(eventName);
-
-                if (code == null)
+                //Check if the cookie is present for this event (indicating this user has already had a code in the past 7 days for this event)
+                var existingPromoCode = Request.Cookies[eventName];
+                Code code;
+                if (existingPromoCode != null)
                 {
-                    var message = $"Could not get a code for {eventName}. We may have ranout of codes for this event. Contact your Microsoft representative.";
-                    return RedirectToAction("Event", new { message = message });
+                    //if they already have a code, show it
+                    code = await _apiRepository.GetCode(eventName, existingPromoCode);
                 }
-                else
-                {
-                    //Drop cookie to prevent accidental multiple codes requests
-                    Response.Cookies.Append(
-                        _existingCodeCookieKey,
-                        code.PromoCode,
-                        new CookieOptions()
-                        {
-                            Path = "/",
-                            HttpOnly = false,
-                            Secure = false,
-                            Expires = DateTime.UtcNow.AddDays(7)
-                        }
-                    );
+                else {
+                    //if they dont already have a code, claim one and show it
+                    code = await _apiRepository.ClaimCode(eventName);
 
-                    //return view
-                    return View(code);
+                    if (code == null)
+                    {
+                        var message = $"Could not get a code for {eventName}. We may have ranout of codes for this event. Contact your Microsoft representative.";
+                        return RedirectToAction("Event", new { message = message });
+                    }
+                    else
+                    {
+                        //Drop cookie to prevent accidental multiple codes requests
+                        Response.Cookies.Append(
+                            eventName,
+                            code.PromoCode,
+                            new CookieOptions()
+                            {
+                                Path = "/",
+                                HttpOnly = false,
+                                Secure = false,
+                                Expires = DateTime.UtcNow.AddDays(7)
+                            }
+                        );
+                    }
                 }
+
+                //return view
+                return View(code);
             }
             else
             {
