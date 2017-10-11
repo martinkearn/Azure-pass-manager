@@ -67,6 +67,9 @@
         @Html.ActionLink("Delete event and codes", "Delete", new { eventName = Model.EventName }, new { @class = "btn btn-secondary" })
         @Html.ActionLink("Download claimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-claimed" }, new { @class = "btn btn-secondary" })
         @Html.ActionLink("Download unclaimed codes", "Download", new { contents = string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList()), fileName = $"{Model.EventName}-unclaimed" }, new { @class = "btn btn-secondary" })
+        <a href="https://slack.com/oauth/authorize?&client_id=221668590789.254971910054&scope=bot" class="btn btn-secondary">Slack Bot</a>
+        <a href="https://join.skype.com/bot/d4189d5e-f76f-44b7-bfab-ac3a48b17f24" class="btn btn-secondary">Skype Bot</a>
+        <a href="https://teams.microsoft.com/l/chat/0/0?users=28:d4189d5e-f76f-44b7-bfab-ac3a48b17f24" class="btn btn-secondary">Teams Bot</a>
     </div>
 </div>
 
