@@ -42,9 +42,10 @@ Follow these steps to get up and running
 1. (optional) You may want to configure a bot in Slack, Teams or Skype as an alterntive way for delegates to claim their code. Links are on the `Event Details` page
 
 ### Instructing delegates
-You'll need to tell delegates at your event how to get their codes. There are two choices:
+You'll need to tell delegates at your event how to get their codes. There are a few choices:
 * Give them a direct URL for your event's `Code Claim` page. You can get the URL on the event details page. You can get a vanity URL at http://aka.ms if you'd like to (recommended).
 * Give them the event name and direct them to the http://aka.ms/AzurePassManager where they will be prompted to find the event by entering the event name. Spaces should be included and it is not case sensitive.
+* Configure a bot in Slack, Teams or Skype as an alterntive way for delegates to claim their code. Links are on the `Event Details` page
 
 If delegates attempt to claim more than one code, they may receive an error that says something like _"Cheeky! ... You have already requested a code for the EVENTNAMEGOESHERE on this machine and it was CODEGOESHERE. Contact your Microsoft representative if you really need a second code."_. If you would like to for them to get a second code, tell them to either use another device or to clear their browser cookies.
 
