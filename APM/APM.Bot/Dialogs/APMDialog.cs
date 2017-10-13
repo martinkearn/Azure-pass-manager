@@ -43,13 +43,12 @@
 
                     response = "Good luck with your project, you can now close this conversation.";
                     await context.PostAsync(response);
+                    context.Done<string>(null);
                 }
                 else
                 {
-                    response = $"That is an invalid event name, please try again.";
-                    await context.SayAsync(response, response);
+                    PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.", "That's not a valid event.");
                 }
-                context.Done<string>(null);
             }
         }
     }
