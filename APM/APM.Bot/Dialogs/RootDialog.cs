@@ -21,7 +21,7 @@
                     this.ContinueWithNextGroup();
                     break;
                 case ActivityTypes.ConversationUpdate:
-                    if (context.Activity.ChannelId != "webchat")
+                    if (context.Activity.ChannelId.ToLower() != "webchat" && context.Activity.ChannelId.ToLower() != "bing")
                     {
                         IConversationUpdateActivity update = activity as IConversationUpdateActivity;
                         var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
