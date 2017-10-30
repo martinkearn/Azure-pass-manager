@@ -28,26 +28,28 @@
         private async Task ResumeAfterPromptDialog(IDialogContext context, IAwaitable<string> result)
         {
             var eventName = await result;
-            string response = "";
 
-            var baseUri = new Uri(ConfigurationManager.AppSettings["APMAPI"]);
-            var claimUri = new Uri(baseUri, $"claim?eventName={eventName}");
-            var code = await APMHelper.GetAzurePassCode<Code>(claimUri);
-            if (code != null)
+            if (!string.IsNullOrWhiteSpace(eventName))
             {
-                response = $"Your Azure trial code is: {code.PromoCode} which expires on {code.Expiry.ToLongDateString()}";
-                context.UserData.SetValue(AzureCodeKeyName, code.PromoCode);
-                await context.SayAsync(response, response);
+                string response = "";
+                var baseUri = new Uri(ConfigurationManager.AppSettings["APMAPI"]);
+                var claimUri = new Uri(baseUri, $"claim?eventName={eventName}");
+                var code = await APMHelper.GetAzurePassCode<Code>(claimUri);
+                if (code != null)
+                {
+                    response = $"Your Azure trial code is: {code.PromoCode} which expires on {code.Expiry.ToLongDateString()}.  You can activate your code at https://www.microsoftazurepass.com";
+                    context.UserData.SetValue(AzureCodeKeyName, code.PromoCode);
+                    await context.SayAsync(response, response);
 
-                response = "Good luck with your project, you can now close this conversation.";
-                await context.PostAsync(response);
+                    response = "Good luck with your project, you can now close this conversation.";
+                    await context.PostAsync(response);
+                    context.Done<string>(null);
+                }
+                else
+                {
+                    PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.", "That's not a valid event.");
+                }
             }
-            else
-            {
-                response = $"That is an invalid event name, please try again.";
-                await context.SayAsync(response, response);
-            }
-            context.Done<string>(null);
         }
     }
 }
