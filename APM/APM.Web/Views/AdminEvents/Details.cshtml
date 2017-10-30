@@ -67,7 +67,7 @@
         <a asp-controller="AdminEvents" asp-action="Delete" asp-route-eventname="@Model.EventName" class="btn btn-secondary">Delete</a>
         <a asp-controller="AdminEvents" asp-action="Download" asp-route-contents="@string.Join(",", Model.Codes.Where(c => c.Claimed).Select(c => c.PromoCode).ToList())" asp-route-filename="@string.Join(Model.EventName,"claimed")" class="btn btn-secondary">Download claimed codes</a>
         <a asp-controller="AdminEvents" asp-action="Download" asp-route-contents="@string.Join(",", Model.Codes.Where(c => !c.Claimed).Select(c => c.PromoCode).ToList())" asp-route-filename="@string.Join(Model.EventName,"unclaimed")" class="btn btn-secondary">Download unclaimed codes</a>
-        <a href="https://slack.com/oauth/authorize?&client_id=221668590789.254971910054&scope=bot" class="btn btn-secondary">Slack Bot</a>
+        <a href="https://slack.com/oauth/authorize?scope=bot&client_id=221668590789.254971910054&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=APMBot" class="btn btn-secondary">Slack Bot</a>
         <a href="https://join.skype.com/bot/d4189d5e-f76f-44b7-bfab-ac3a48b17f24" class="btn btn-secondary">Skype Bot</a>
         <a href="https://teams.microsoft.com/l/chat/0/0?users=28:d4189d5e-f76f-44b7-bfab-ac3a48b17f24" class="btn btn-secondary">Teams Bot</a>
     </div>
