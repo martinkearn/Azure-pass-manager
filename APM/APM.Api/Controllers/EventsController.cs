@@ -48,6 +48,8 @@ namespace APM.Api.Controllers
                     .Where(x => x.EventName.ToLower() == eventName.ToLower())
                     .ToList();
                 var expiry = codesInEvent.FirstOrDefault().Expiry;
+                var avaliableFrom = codesInEvent.FirstOrDefault().AvaliableFrom;
+                var avaliableUntil = codesInEvent.FirstOrDefault().AvaliableUntil;
 
                 //create Event object
                 var evnt = new Event()
@@ -55,7 +57,9 @@ namespace APM.Api.Controllers
                     Codes = codesInEvent,
                     EventName = eventName,
                     Expiry = expiry,
-                    Owner = owner
+                    Owner = owner,
+                    AvaliableFrom = avaliableFrom,
+                    AvaliableUntil = avaliableUntil
                 };
 
                 events.Add(evnt);

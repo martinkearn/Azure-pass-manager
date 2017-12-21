@@ -41,6 +41,8 @@ namespace APM.Api.Controllers
             var owner = codesInEvent.FirstOrDefault().Owner;
             var expiry = codesInEvent.FirstOrDefault().Expiry;
             var codes = codesInEvent;
+            var avaliableFrom = codesInEvent.FirstOrDefault().AvaliableFrom;
+            var avaliableUntil = codesInEvent.FirstOrDefault().AvaliableUntil;
 
             //create Event object
             var evnt = new Event()
@@ -48,7 +50,9 @@ namespace APM.Api.Controllers
                 Codes = codes,
                 EventName = eventName,
                 Expiry = expiry,
-                Owner = owner
+                Owner = owner,
+                AvaliableFrom = avaliableFrom,
+                AvaliableUntil = avaliableUntil
             };
 
             return Ok(evnt);

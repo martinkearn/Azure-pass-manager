@@ -88,7 +88,9 @@ namespace APM.Web.Controllers
                 Expiry = Convert.ToDateTime(collection["Expiry"]),
                 EventName = collection["EventName"],
                 Owner = User.Identity.Name ?? "Anonymous",
-                File = fileBytes
+                File = fileBytes,
+                AvaliableFrom = Convert.ToDateTime(collection["AvaliableFrom"]),
+                AvaliableUntil = Convert.ToDateTime(collection["AvaliableUntil"])
             };
 
             return codeBatch;

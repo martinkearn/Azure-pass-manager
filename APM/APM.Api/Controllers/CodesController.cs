@@ -74,7 +74,9 @@ namespace APM.Api.Controllers
                             Claimed = false,
                             EventName = codeBatch.EventName ?? string.Empty,
                             Expiry = Convert.ToDateTime(codeBatch.Expiry, dtfi),
-                            Owner = codeBatch.Owner ?? string.Empty
+                            Owner = codeBatch.Owner ?? string.Empty,
+                            AvaliableFrom = Convert.ToDateTime(codeBatch.AvaliableFrom, dtfi),
+                            AvaliableUntil = Convert.ToDateTime(codeBatch.AvaliableUntil, dtfi)
                         };
 
                         codesList.Add(code);

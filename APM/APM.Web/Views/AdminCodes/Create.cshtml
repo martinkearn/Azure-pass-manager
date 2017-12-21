@@ -28,13 +28,25 @@
                     <label asp-for="Expiry" class="control-label"></label>
                     <input asp-for="Expiry" class="form-control" type="date" required />
                     <span asp-validation-for="Expiry" class="text-danger"></span>
-                    <span class="text-info">Codes typicaly expire 90 days from the date they were issued, check the email that came with your CSV file. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
+                    <span class="text-info">The date the codes expire. Codes typicaly expire 90 days from the date they were issued, check the email that came with your CSV file. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
                 </div>
                 <div class="form-group">
                     <label asp-for="File" class="control-label"></label>
                     <input asp-for="File" type="file" name="File" id="File" class="form-control input" required>
                     <span asp-validation-for="File" class="text-danger"></span>
                     <span class="text-info">Choose a CSV file containing Azure trial codes</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AvaliableFrom" class="control-label"></label>
+                    <input asp-for="AvaliableFrom" class="form-control" type="date" required />
+                    <span asp-validation-for="AvaliableFrom" class="text-danger"></span>
+                    <span class="text-info">The date the codes are avaliale from, requests for codes outside this date window will return no codes. Typically this will be a day or two before the event starts. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AvaliableUntil" class="control-label"></label>
+                    <input asp-for="AvaliableUntil" class="form-control" type="date" required />
+                    <span asp-validation-for="AvaliableUntil" class="text-danger"></span>
+                    <span class="text-info">The date the codes are avaliale until, requests for codes outside this date window will return no codes. Typically this will be a day or two after the event finishes. If typing the date, use the format DD/MM/YYYY i.e. 29/10/2017</span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Upload" class="btn btn-default" />

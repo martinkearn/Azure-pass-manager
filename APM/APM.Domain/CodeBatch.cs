@@ -13,5 +13,9 @@ namespace APM.Domain
         public string Owner { get; set; }
 
         public byte[] File { get; set; }
+
+        public DateTime AvaliableFrom { get; set; }
+
+        public DateTime AvaliableUntil { get; set; }
     }
 }

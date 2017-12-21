@@ -13,5 +13,9 @@ namespace APM.Domain
         public string EventName { get; set; }
 
         public string Owner { get; set; }
+
+        public DateTime AvaliableFrom { get; set; }
+
+        public DateTime AvaliableUntil { get; set; }
     }
 }

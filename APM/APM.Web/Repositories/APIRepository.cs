@@ -40,7 +40,9 @@ namespace APM.Web.Repositories
             {
                 { "Expiry", codeBatch.Expiry.ToString(dtfi)},
                 { "EventName", codeBatch.EventName },
-                { "Owner", codeBatch.Owner }
+                { "Owner", codeBatch.Owner },
+                { "AvaliableFrom", codeBatch.AvaliableFrom.ToString(dtfi)},
+                { "AvaliableUntil", codeBatch.AvaliableUntil.ToString(dtfi)},
             };
             var apiBaseUrl = $"{_appSettings.APIBaseUrl}/codes";
             var apiUri = QueryHelpers.AddQueryString(apiBaseUrl, parameters);

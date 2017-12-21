@@ -13,5 +13,8 @@ namespace APM.Domain
         public DateTime Expiry { get; set; }
 
         public List<Code> Codes { get; set; }
+
+        public DateTime AvaliableFrom { get; set; }
+        public DateTime AvaliableUntil { get; set; }
     }
 }
