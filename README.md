@@ -49,6 +49,11 @@ You'll need to tell delegates at your event how to get their codes. There are a 
 
 If delegates attempt to claim more than one code, they may receive an error that says something like _"Cheeky! ... You have already requested a code for the EVENTNAMEGOESHERE on this machine and it was CODEGOESHERE. Contact your Microsoft representative if you really need a second code."_. If you would like to for them to get a second code, tell them to either use another device or to clear their browser cookies.
 
+### Using the bot
+You can add the bot to the slack channel by clicking the below link.  Delegates should start a 1:1 (private) conversation with the bot to retrieve a code using event name:
+
+<a href="https://slack.com/oauth/authorize?scope=bot&client_id=221668590789.254971910054&redirect_uri=https%3a%2f%2fslack.botframework.com%2fHome%2fauth&state=APMBot"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+
 ### Getting data about your event
 When your event is completed, you may want to see data about how many codes were claimed, to do this
 1. Go to https://aka.ms/azurepassmanager and sign in with your corporate credentials

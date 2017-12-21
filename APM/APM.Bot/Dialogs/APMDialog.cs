@@ -1,6 +1,7 @@
 ﻿namespace APM.Bot.Dialogs
 {
     using Microsoft.Bot.Builder.Dialogs;
+    using Microsoft.Bot.Connector;
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
@@ -21,19 +22,21 @@
             }
             else
             {
-                PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.", "That's not a valid event.");
+                //PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.");
+                string response = "What is your event name?  Your Microsoft representative can give you this if you don't know.";
+                await context.SayAsync(response, response);
+                context.Wait(MessageReceivedAsync);
             }
         }
 
-        private async Task ResumeAfterPromptDialog(IDialogContext context, IAwaitable<string> result)
+        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var eventName = await result;
-
-            if (!string.IsNullOrWhiteSpace(eventName))
+            var userResponse = await result;
+            if (!string.IsNullOrWhiteSpace(userResponse.Text))
             {
                 string response = "";
                 var baseUri = new Uri(ConfigurationManager.AppSettings["APMAPI"]);
-                var claimUri = new Uri(baseUri, $"claim?eventName={eventName}");
+                var claimUri = new Uri(baseUri, $"claim?eventName={userResponse.Text}");
                 var code = await APMHelper.GetAzurePassCode<Code>(claimUri);
                 if (code != null)
                 {
@@ -47,7 +50,10 @@
                 }
                 else
                 {
-                    PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.", "That's not a valid event.");
+                    //PromptDialog.Text(context, ResumeAfterPromptDialog, "What is your event name?  Your Microsoft representative can give you this if you don't know.", "That's not a valid event.");
+                    response = "What is your event name?  Your Microsoft representative can give you this if you don't know.";
+                    await context.SayAsync(response, response);
+                    context.Wait(MessageReceivedAsync);
                 }
             }
         }
