@@ -30,7 +30,7 @@ namespace APM.Api.Controllers
         /// <param name="Expiry">DateTime representing the expiration of the codes in the batch. Format YYYY-MM-DDTHH:MM:SS i.e. 2017-09-25T00:00:00</param>
         /// <param name="EventName">String representing the name of the event</param>
         /// <param name="Owner">String representing the alias of the user who owns the code</param>
-        /// <body>A file (CSV) containg comma seperated list of codes</body>
+        /// <body>A file (CSV or TXT) containing either a comma seperated list of codes or a line seperate list of codes with additional infomration</body>
         /// <returns>200 containing an array of Codes</returns>
         [HttpPost]
         public async Task<IActionResult> Post(CodeBatch codeBatch)
@@ -60,8 +60,30 @@ namespace APM.Api.Controllers
             var codesList = new List<Code>();
             foreach (var line in lines)
             {
-                // split line to individual codes
-                string[] promoCodes = line.Split(',');
+                // skip header lines
+                if (line.StartsWith("Code")) continue;
+
+                // skip empty lines
+                if (string.IsNullOrEmpty(line)) continue;
+
+                // get the promo code(s) by selecting the right tab or splitting by comma
+                string[] tabSeparators = new string[] { "\t" };
+                string[] tabsInLine = line.Split(tabSeparators, StringSplitOptions.None);
+                var promoCodes = new List<string>();
+                if (tabsInLine.Count() > 1)
+                {
+                    promoCodes.Add(tabsInLine[0]);
+                }
+                else
+                {
+                    string[] promoCodesA = line.Split(',');
+                    foreach (var promoCodeA in promoCodesA)
+                    {
+                        promoCodes.Add(promoCodeA);
+                    }
+                }
+
+                // Enumerate promo codes and add to list
                 foreach (var promoCode in promoCodes)
                 {
                     if (!string.IsNullOrEmpty(promoCode))

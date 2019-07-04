@@ -54,7 +54,7 @@ namespace APM.Api.Controllers
         }
 
         /// <summary>
-        /// Updates a code in storage by replacing exitsing one with what was passed in
+        /// Updates a code in storage by replacing existing one with what was passed in
         /// </summary>
         /// <param name="code">A code object which is to be updated</param>
         /// <returns>The code object which was updated</returns>
