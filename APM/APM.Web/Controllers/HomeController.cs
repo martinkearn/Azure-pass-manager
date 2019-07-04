@@ -88,7 +88,7 @@ namespace APM.Web.Controllers
 
                     if (code == null)
                     {
-                        var message = $"Could not get a code for {eventName}. We may have ranout of codes for this event. Contact your Microsoft representative.";
+                        var message = $"Could not get a code for {eventName}. We may have ran out of codes for this event, the event may have expired or you may be requesting a code outside the avaliability window for the event. Contact your Microsoft representative.";
                         return RedirectToAction("Event", new { message = message });
                     }
                     else
